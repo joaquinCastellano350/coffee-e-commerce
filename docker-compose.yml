@@ -1,0 +1,16 @@
+services:
+  mongodb:
+    image: mongo:6.0
+    container_name: mongo-ecommerce-db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=ecommerce_admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin123
+      - MONGO_INITDB_DATABASE=ecommerce
+
+volumes:
+  mongodb_data:
+    driver: local
