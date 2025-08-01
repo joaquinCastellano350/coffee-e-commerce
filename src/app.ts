@@ -1,10 +1,12 @@
 import express from 'express'
-import {Request, Response} from 'express'
-const app = express();
+import {Request, Response, ErrorRequestHandler} from 'express'
+import {productRouter} from './product/product.routes.js'
+import { errorHandler } from './middlewares/error.middleware.js';
 
-app.get('/', (req: Request, res: Response)=> {
-    res.status(201).json({message: "Hello World"})
-})
+const app = express();
+app.use(express.json());
+app.use('/products', productRouter);
+app.use(errorHandler as ErrorRequestHandler);
 
 app.listen(3000, () => {
     console.log("Server listening on port 3000")
