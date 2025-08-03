@@ -11,6 +11,7 @@ export interface IProduct extends Document {
     category_slug: string,
     catalog_id: Schema.Types.ObjectId,
     category_id: Schema.Types.ObjectId,
+    tags: string[]
 }
 
 const productSchema = new Schema<IProduct>({
@@ -22,7 +23,9 @@ const productSchema = new Schema<IProduct>({
     stock: {type: Number, default: 0},
     imageURL: {type: String, required: false},
     category_id: {type: Schema.Types.ObjectId, ref: 'Category', required: false},
-    catalog_id: {type: Schema.Types.ObjectId, ref: 'Catalog', required: false}
+    catalog_id: {type: Schema.Types.ObjectId, ref: 'Catalog', required: false},
+    tags: {type: [String], required: false},
+    category_slug: {type: String, required: false}
 }, {timestamps: true})
 
 productSchema.pre('validate', function(next) {

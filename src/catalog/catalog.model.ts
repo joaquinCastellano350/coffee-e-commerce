@@ -4,18 +4,18 @@ export interface ICatalog extends Document {
     name: string,
     description: string,
     slug: string,
-    products: [],
     visible: boolean
+    startedAt: Date
+    endedAt: Date
 }
 
 const catalogSchema = new Schema<ICatalog>({
     name: {type: String, required: true, trim: true},
     description: {type: String, required: false},
     slug: {type: String, required: true, unique: true, lowercase: true},
-    products: [
-        {type: Schema.Types.ObjectId, ref: 'Product'}
-    ],
-    visible :{type: Boolean, default: true}
+    visible :{type: Boolean, default: true},
+    startedAt: {type: Date, required: false},
+    endedAt: {type: Date, required: false}
 },{timestamps: true})
 
 export const CatalogModel = model<ICatalog>('Catalog', catalogSchema)
