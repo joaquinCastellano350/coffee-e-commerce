@@ -2,7 +2,7 @@
   "name": "coffee-e-commerce",
   "version": "1.0.0",
   "main": "index.js",
-  "type":"module",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc -p ./tsconfig.json",
@@ -22,6 +22,7 @@
     "@types/express": "^5.0.3",
     "@types/mongoose": "^5.11.96",
     "@types/node": "^24.1.0",
+    "slugify": "^1.6.6",
     "tsc-watch": "^7.1.1",
     "typescript": "^5.8.3"
   }
