@@ -1,6 +1,5 @@
 import {NextFunction, Request, Response} from 'express';
 import {ProductService} from './product.service.js';
-import { createProductSchema, updateProductSchema } from './product.validation.js';
 
 const productService = new ProductService();
 
