@@ -1,12 +1,7 @@
-import { connectDB } from "../config/mongoose.js";
 import {IProduct, ProductModel} from "./product.model.js"
 import { ProductRepository } from "./product.repository.interface.js";
 
 export class MongoProductRepository implements ProductRepository {
-    constructor(){
-        connectDB();
-    }
-    
     async findAll(): Promise<IProduct[]> {
         const products = await ProductModel.find();
         return products;
