@@ -2,6 +2,10 @@ import { ICatalog, CatalogModel} from "./catalog.model.js";
 import { CatalogRepository } from "./catalog.repository.interface.js";
 
 export class MongoCatalogRepository implements CatalogRepository {
+    async findBySlug(slug: string) {
+        const catalog = await CatalogModel.findOne({ slug });
+        return catalog;
+    }
 
     async add(data: ICatalog): Promise<ICatalog> {
         const newCatalog = new CatalogModel(data);

@@ -9,6 +9,7 @@ export const catalogRouter = Router();
 catalogRouter.post("/", validate(createCatalogSchema), catalogController.createCatalog);
 catalogRouter.get("/", catalogController.getAllCatalogs);
 catalogRouter.get("/:id", catalogController.getCatalogById);
+catalogRouter.get("/:slug/products", catalogController.getProductsByCatalogSlug);
 catalogRouter.put("/:id", validate(updateCatalogSchema), catalogController.updateCatalog);
 catalogRouter.delete("/:id", catalogController.deleteCatalog);
 catalogRouter.patch("/:id/disable", catalogController.disableCatalog);

@@ -1,10 +1,20 @@
 import { MongoCatalogRepository } from "./catalog.repository.js";
 import { ICatalog } from "./catalog.model.js";
 import { AppError } from "../utils/AppError.js";
+import { MongoProductRepository } from "../product/product.repository.js";
 
 const catalogRepository = new MongoCatalogRepository();
+const productRepository = new MongoProductRepository();
 
 export class CatalogService {
+    async getProductsByCatalogSlug(slug: string) {
+        const catalog = await catalogRepository.findBySlug(slug);
+        if (!catalog) {
+            throw new AppError("Catalog not found", 404);
+        }
+        const products = await productRepository.findByCatalogId(catalog._id);
+        return products;
+    }
     async createCatalog(data: ICatalog): Promise<ICatalog> {
         const catalog = await catalogRepository.add(data);
         return catalog;

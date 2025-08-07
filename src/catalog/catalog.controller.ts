@@ -4,6 +4,14 @@ import {CatalogService} from './catalog.service.js';
 const catalogService = new CatalogService();
 
 export class CatalogController {
+    async getProductsByCatalogSlug(req: Request, res: Response, next: NextFunction) {
+        try {
+            const products = await catalogService.getProductsByCatalogSlug(req.params.slug);
+            res.status(200).json(products);
+        } catch (error) {
+            next(error);
+        }
+    }
     async createCatalog(req: Request, res: Response, next: NextFunction) {
         try {
             const newCatalog = await catalogService.createCatalog(req.body);
