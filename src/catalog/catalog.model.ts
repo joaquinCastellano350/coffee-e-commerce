@@ -1,4 +1,5 @@
 import {model, Schema, Document} from 'mongoose';
+import slugify from 'slugify';
 
 export interface ICatalog extends Document {
     name: string,
@@ -16,6 +17,13 @@ const catalogSchema = new Schema<ICatalog>({
     visible :{type: Boolean, default: true},
     startedAt: {type: Date, required: false},
     endedAt: {type: Date, required: false}
-},{timestamps: true})
+});
+
+catalogSchema.pre('validate', function(next) {
+    if (this.name && this.isModified('name')) {
+        this.slug = slugify(this.name, { lower: true , strict: true });
+    }
+    next();
+});
 
 export const CatalogModel = model<ICatalog>('Catalog', catalogSchema)
