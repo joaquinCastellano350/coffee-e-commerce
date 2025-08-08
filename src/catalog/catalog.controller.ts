@@ -1,12 +1,13 @@
 import {Request, Response, NextFunction} from 'express';
 import {CatalogService} from './catalog.service.js';
-
+import {FilteredRequest} from '../middlewares/parseFilters.js';
 const catalogService = new CatalogService();
 
 export class CatalogController {
-    async getProductsByCatalogSlug(req: Request, res: Response, next: NextFunction) {
+    async getCatalogProducts(req: FilteredRequest, res: Response, next: NextFunction) {
         try {
-            const products = await catalogService.getProductsByCatalogSlug(req.params.slug);
+            const slug = req.params.slug;
+            const products = await catalogService.getCatalogProducts(slug, req.filters);
             res.status(200).json(products);
         } catch (error) {
             next(error);
