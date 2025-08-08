@@ -1,6 +1,6 @@
 import {Schema, model, Document, ObjectId} from 'mongoose';
 import slugify from 'slugify';
-export interface Iform extends Document {
+export interface IForm extends Document {
     name: string,
     slug: string,
     message: string,
@@ -8,15 +8,15 @@ export interface Iform extends Document {
     phone: string,
 }
 
-const formSchema = new Schema<Iform>({
+const formSchema = new Schema<IForm>({
     name: {type: String, required: true, trim: true},
     slug: {type: String, required: true, unique: true, lowercase: true},
-    message: {type: String, required: true, unique: true, lowercase: true},
+    message: {type: String, required: true, lowercase: true},
     email: {type: String, required: false},
     phone: {type: String, required: false},
 }, {timestamps: true})
 
 
-export const formModel = model<Iform>('Contact', formSchema)
+export const formModel = model<IForm>('Form', formSchema)
 
 

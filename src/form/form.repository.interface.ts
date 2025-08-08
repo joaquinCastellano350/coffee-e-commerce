@@ -1,10 +1,10 @@
-import { Iform } from "./form.model.js";
+import { IForm } from "./form.model.js";
 
-export interface formRepository {
-    findAll() : Promise<Iform[]>;
-    findOne(id: any): Promise<Iform | null>;
-    add(data: Partial<Iform>): Promise<Iform | null>;
-    update(id: any, data: Partial<Iform>): Promise<Iform | null>;
-    delete(id: any): Promise<Iform | null>;
+export interface FormRepository {
+    findAll() : Promise<IForm[]>;
+    findOne(id: any): Promise<IForm | null>;
+    add(data: Partial<IForm>): Promise<IForm | null>;
+    update(id: any, data: Partial<IForm>): Promise<IForm | null>;
+    delete(id: any): Promise<IForm | null>;
 
 }
