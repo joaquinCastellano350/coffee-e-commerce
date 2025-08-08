@@ -1,5 +1,6 @@
 import {Schema, model, Document, ObjectId} from 'mongoose';
 import slugify from 'slugify';
+import { CategoryModel } from '../category/category.model.js';
 export interface IProduct extends Document {
     name: string,
     slug: string,
@@ -31,6 +32,13 @@ const productSchema = new Schema<IProduct>({
 productSchema.pre('validate', function(next) {
     if (this.name && this.isModified('name')) {
         this.slug = slugify(this.name, { lower: true , strict: true });
+    }
+    next();
+});
+productSchema.pre('save', async function(next) {
+    if (this.category_id && this.isModified('category_id')) {
+        const category = await CategoryModel.findById(this.category_id);
+        this.category_slug = category ? category.slug : '';
     }
     next();
 });
