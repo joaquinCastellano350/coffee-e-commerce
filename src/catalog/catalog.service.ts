@@ -7,12 +7,19 @@ const catalogRepository = new MongoCatalogRepository();
 const productRepository = new MongoProductRepository();
 
 export class CatalogService {
-    async getProductsByCatalogSlug(slug: string) {
-        const catalog = await catalogRepository.findBySlug(slug);
-        if (!catalog) {
-            throw new AppError("Catalog not found", 404);
+    async getCatalogProducts(slug: string, filters: any): Promise<any> {
+        let catalog;
+        if (slug === "catalog"){
+            catalog = await catalogRepository.findActive();
         }
-        const products = await productRepository.findByCatalogId(catalog._id);
+        else {
+            catalog = await catalogRepository.findBySlug(slug);
+        }
+        if (!catalog) {
+            throw new AppError("There are no visible catalogs", 404);
+        }
+        filters.catalog_id = catalog._id;
+        const products = await productRepository.findByFilters(filters);
         return products;
     }
     async createCatalog(data: ICatalog): Promise<ICatalog> {

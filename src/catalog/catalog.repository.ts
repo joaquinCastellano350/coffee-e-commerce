@@ -37,7 +37,13 @@ export class MongoCatalogRepository implements CatalogRepository {
         return catalog;
     }
     async enable(id: string): Promise<ICatalog | null> {
+        await CatalogModel.updateMany({ visible: true }, { visible: false });
         const catalog = await CatalogModel.findByIdAndUpdate(id, { visible: true }, { new: true });
+
+        return catalog;
+    }
+    async findActive(): Promise<ICatalog | null> {
+        const catalog = await CatalogModel.findOne({ visible: true });
         return catalog;
     }
 }
