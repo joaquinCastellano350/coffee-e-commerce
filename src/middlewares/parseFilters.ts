@@ -12,7 +12,7 @@ function parseFilters(req: FilteredRequest, res: Response, next: NextFunction) {
     // if (price_min) filters.price_min = parseFloat(price_min as string);
     // if (price_max) filters.price_max = parseFloat(price_max as string);
     if (brand) filters.brand = brand;
-    if (category) filters.category = category;
+    if (category) filters.category_slug = category;
     // if (stock) filters.stock = Number(stock);
     if (name) filters.name = String(name).trim();
 
