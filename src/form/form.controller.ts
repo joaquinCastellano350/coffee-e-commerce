@@ -1,6 +1,9 @@
 import {NextFunction, Request, Response} from 'express';
 import {FormService} from './form.service.js';
 import { createformSchema, updateformSchema } from './form.validation.js';
+import { generateUniqueSlug } from '../utils/AppError.js'; 
+
+
 
 const formService = new FormService();
 
@@ -26,12 +29,15 @@ export class FormController {
     async createform(req: Request, res: Response, next: NextFunction) {
         try {
             const form = createformSchema.parse(req.body);
+            const formName = form.name;
+            const slug = await generateUniqueSlug(formName);
             const createdform = await formService.createform(form);
             res.status(201).json(createdform);
         } catch (error) {
             next(error);
         }
     }
+    
 
     async updateform(req: Request, res: Response, next: NextFunction) {
         try {
@@ -51,4 +57,6 @@ export class FormController {
             next(error);
         }
     }
+
+    
 }

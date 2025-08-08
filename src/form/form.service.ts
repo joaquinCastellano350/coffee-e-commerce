@@ -1,7 +1,7 @@
 import { MongoformRepository } from "./form.repository.js";
 import { AppError } from "../utils/AppError.js";
 import { Mongoose, Schema } from "mongoose";
-import { Icontact } from "./form.model.js";
+import { Iform } from "./form.model.js";
 
 const formRepository = new MongoformRepository();
 
@@ -20,12 +20,12 @@ export class FormService {
         }
         return form;
     }
-    async createform(data: Partial<Icontact>) {
+    async createform(data: Partial<Iform>) {
         const form = await formRepository.add(data);
         return form;
     }
 
-    async updateform(id: string, data: Partial<Icontact>) {
+    async updateform(id: string, data: Partial<Iform>) {
         const updatedform = await formRepository.update(id, data);
         if (!updatedform) {
             throw new AppError("Form not found or could not be updated", 404);
