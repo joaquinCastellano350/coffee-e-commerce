@@ -26,4 +26,10 @@ catalogSchema.pre('validate', function(next) {
     next();
 });
 
+catalogSchema.index(
+    {visible: 1},
+    {unique: true, partialFilterExpression: { visible: true }}
+)
+
+
 export const CatalogModel = model<ICatalog>('Catalog', catalogSchema)
