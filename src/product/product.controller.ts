@@ -1,6 +1,5 @@
 import {NextFunction, Request, Response} from 'express';
 import {ProductService} from './product.service.js';
-import { createProductSchema, updateProductSchema } from './product.validation.js';
 
 const productService = new ProductService();
 
@@ -25,8 +24,7 @@ export class ProductController {
 
     async createProduct(req: Request, res: Response, next: NextFunction) {
         try {
-            const product = createProductSchema.parse(req.body);
-            const createdProduct = await productService.createProduct(product);
+            const createdProduct = await productService.createProduct(req.body);
             res.status(201).json(createdProduct);
         } catch (error) {
             next(error);
@@ -35,8 +33,7 @@ export class ProductController {
 
     async updateProduct(req: Request, res: Response, next: NextFunction) {
         try {
-            const product = updateProductSchema.parse(req.body);
-            const updatedProduct = await productService.updateProduct(req.params.id, product);
+            const updatedProduct = await productService.updateProduct(req.params.id, req.body);
             res.status(200).json(updatedProduct);
         } catch (error) {
             next(error);

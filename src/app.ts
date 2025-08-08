@@ -1,14 +1,19 @@
 import express from 'express'
 import {Request, Response, ErrorRequestHandler} from 'express'
 import {productRouter} from './product/product.routes.js'
+import { categoryRouter } from './category/category.routes.js';
+import { catalogRouter } from './catalog/catalog.routes.js';
 import { errorHandler } from './middlewares/error.middleware.js';
+
 import { connectDB } from './config/mongoose.js';
 import { formRouter } from './form/form.routes.js';
 
 const app = express();
-connectDB()
+connectDB();
 app.use(express.json());
 app.use('/products', productRouter);
+app.use('/categories', categoryRouter);
+app.use('/catalogs', catalogRouter);
 app.use('/forms', formRouter)
 app.use(errorHandler as ErrorRequestHandler);
 

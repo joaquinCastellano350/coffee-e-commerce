@@ -2,6 +2,10 @@ import {IProduct, ProductModel} from "./product.model.js"
 import { ProductRepository } from "./product.repository.interface.js";
 
 export class MongoProductRepository implements ProductRepository {
+    async findByFilters(filters: any) {
+        const products = await ProductModel.find(filters);
+        return products;
+    }
     async findAll(): Promise<IProduct[]> {
         const products = await ProductModel.find();
         return products;
