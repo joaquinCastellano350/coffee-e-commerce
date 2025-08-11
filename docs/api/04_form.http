@@ -1,0 +1,39 @@
+###
+# Archivo: 04_form.http
+# Requiere: No hay requisitos previos para acceder a los endpoints de form
+###
+
+### Crear formulario
+# @name createForm
+POST http://localhost:3000/forms
+Content-Type: application/json
+
+{
+    "name": "Lautaro Becerra",
+    "message": "Me interesa el café de la marca Nescafe",
+    "phone": "123456789",
+    "mail": "lautaro.becerra@example.com"
+}
+###
+@formId = {{createForm.response.body._id}}
+
+### Obtener todos los formularios
+GET http://localhost:3000/forms
+
+### Obtener formulario por ID
+GET http://localhost:3000/forms/{{formId}}
+
+
+### Actualizar formulario
+PUT http://localhost:3000/forms/{{formId}}
+Content-Type: application/json
+
+{
+    "name": "Joaquín Castellano",
+    "message": "Me interesa comprar una cafetera",
+    "phone": "987654321",
+    "mail": "joaquincastellano350@gmail.com"
+}
+
+### Eliminar formulario
+DELETE http://localhost:3000/forms/{{formId}}

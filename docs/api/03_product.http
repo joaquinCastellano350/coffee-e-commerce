@@ -1,0 +1,59 @@
+###
+# Archivo: 03_product.http
+# Requiere: Es conveniente tener categoría y catálogo creados previamente.
+###
+
+### Obtener id de la categoría (necesario para crear el producto)
+# @name getCategory
+GET http://localhost:3000/categories/cafe
+
+###
+@categoryId = {{getCategory.response.body.$.[0]._id}}
+
+### Obtener id del catálogo (necesario para crear el producto)
+# @name getCatalog
+GET http://localhost:3000/catalogs/slug/default-catalog
+
+###
+@catalogId = {{getCatalog.response.body._id}}
+
+### Crear Producto
+# @name createProduct
+POST http://localhost:3000/products
+Content-Type: application/json
+
+
+
+{
+    "name": "Café Arábica",
+    "description": "Café Arábica de alta calidad",
+    "price": 10.99,
+    "stock": 100,
+    "brand": "Nescafe",
+    "tags": ["cafe", "arabica"],
+    "category_id": "{{categoryId}}",
+    "catalog_id": "{{catalogId}}"
+}
+###
+
+@productId = {{createProduct.response.body._id}}
+### Listar Productos
+GET http://localhost:3000/products
+
+### Obtener Producto por ID
+GET http://localhost:3000/products/{{productId}}
+
+### Actualizar Producto
+PUT http://localhost:3000/products/{{productId}}
+Content-Type: application/json
+
+{
+    "name": "Café Arábica - Edición Limitada",
+    "description": "Café Arábica de alta calidad - Edición Limitada",
+    "price": 12.99,
+    "stock": 50,
+    "tags": ["cafe", "arabica", "edicion limitada"]
+}
+
+### Eliminar Producto
+DELETE http://localhost:3000/products/{{productId}}
