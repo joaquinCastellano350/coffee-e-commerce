@@ -9,9 +9,10 @@ export const catalogRouter = Router();
 
 catalogRouter.post("/", validate(createCatalogSchema), catalogController.createCatalog);
 catalogRouter.get("/", catalogController.getAllCatalogs);
-catalogRouter.get("/:id", catalogController.getCatalogById);
-catalogRouter.get("/:slug/products", parseFilters, catalogController.getCatalogProducts);
-catalogRouter.put("/:id", validate(updateCatalogSchema), catalogController.updateCatalog);
-catalogRouter.delete("/:id", catalogController.deleteCatalog);
-catalogRouter.patch("/:id/disable", catalogController.disableCatalog);
-catalogRouter.patch("/:id/enable", catalogController.enableCatalog);
+catalogRouter.get("/slug/:slug", catalogController.getCatalogBySlug);
+catalogRouter.get("/id/:id", catalogController.getCatalogById);
+catalogRouter.get("/slug/:slug/products", parseFilters, catalogController.getCatalogProducts);
+catalogRouter.put("/id/:id", validate(updateCatalogSchema), catalogController.updateCatalog);
+catalogRouter.delete("/id/:id", catalogController.deleteCatalog);
+catalogRouter.patch("/id/:id/disable", catalogController.disableCatalog);
+catalogRouter.patch("/id/:id/enable", catalogController.enableCatalog);

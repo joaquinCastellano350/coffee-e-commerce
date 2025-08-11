@@ -13,6 +13,15 @@ export class CatalogController {
             next(error);
         }
     }
+    async getCatalogBySlug(req: Request, res: Response, next: NextFunction) {
+        try {
+            const slug = req.params.slug;
+            const catalog = await catalogService.getCatalogBySlug(slug);
+            res.status(200).json(catalog);
+        } catch (error) {
+            next(error);
+        }
+    }
     async createCatalog(req: Request, res: Response, next: NextFunction) {
         try {
             const newCatalog = await catalogService.createCatalog(req.body);
