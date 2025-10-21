@@ -2,12 +2,23 @@ import {NextFunction, Request, Response} from 'express';
 import {FormService} from './form.service.js';
 
 
-const formService = new FormService();
+
 
 export class FormController {
+    private formService: FormService;
+
+    constructor(formService: FormService) {
+        this.formService = formService;
+        this.createForm = this.createForm.bind(this);
+        this.deleteForm = this.deleteForm.bind(this);
+        this.getAllForms = this.getAllForms.bind(this);
+        this.getFormById = this.getFormById.bind(this);
+        this.updateForm = this.updateForm.bind(this);
+    }
+
     async getAllForms(req: Request, res: Response, next: NextFunction) {
         try {
-            const forms = await formService.getAllForms();
+            const forms = await this.formService.getAllForms();
             res.status(200).json(forms);
         } catch (error) {
             next(error);
@@ -16,7 +27,7 @@ export class FormController {
 
     async getFormById(req: Request, res: Response, next: NextFunction) {
         try {
-            const form = await formService.getFormById(req.params.id);
+            const form = await this.formService.getFormById(req.params.id);
             res.status(200).json(form);
         } catch (error) {
             next(error);
@@ -25,8 +36,8 @@ export class FormController {
 
     async createForm(req: Request, res: Response, next: NextFunction) {
         try {
-            const createdform = await formService.createForm(req.body);
-            res.status(201).json(createdform);
+            const createdForm = await this.formService.createForm(req.body);
+            res.status(201).json(createdForm);
         } catch (error) {
             next(error);
         }
@@ -35,7 +46,7 @@ export class FormController {
 
     async updateForm(req: Request, res: Response, next: NextFunction) {
         try {
-            const updatedForm = await formService.updateForm(req.params.id, req.body);
+            const updatedForm = await this.formService.updateForm(req.params.id, req.body);
             res.status(200).json(updatedForm);
         } catch (error) {
             next(error);
@@ -44,7 +55,7 @@ export class FormController {
 
     async deleteForm(req: Request, res: Response, next: NextFunction) {
         try {
-            const deletedForm = await formService.deleteForm(req.params.id);
+            const deletedForm = await this.formService.deleteForm(req.params.id);
             res.status(204).json(deletedForm);
         } catch (error) {
             next(error);

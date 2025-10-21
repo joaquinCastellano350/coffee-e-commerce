@@ -3,11 +3,14 @@ import { Router } from "express";
 import { createCategorySchema, updateCategorySchema } from "./category.validation.js";
 import { validate } from "../middlewares/validation.middleware.js";
 
-const categoryController = new CategoryController();
-export const categoryRouter = Router();
+export class CategoryRouter {
+    public readonly router = Router();
 
-categoryRouter.get("/", categoryController.getAllCategories);
-categoryRouter.get("/:slug", categoryController.getCategoryBySlug);
-categoryRouter.post("/",validate(createCategorySchema),categoryController.createCategory);
-categoryRouter.put("/:id", validate(updateCategorySchema), categoryController.updateCategory);
-categoryRouter.delete("/:id", categoryController.deleteCategory);
+    constructor(categoryController: CategoryController) {
+        this.router.get("/", categoryController.getAllCategories);
+        this.router.get("/:slug", categoryController.getCategoryBySlug);
+        this.router.post("/", validate(createCategorySchema), categoryController.createCategory);
+        this.router.put("/:id", validate(updateCategorySchema), categoryController.updateCategory);
+        this.router.delete("/:id", categoryController.deleteCategory);
+    }
+}

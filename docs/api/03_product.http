@@ -5,27 +5,27 @@
 
 ### Obtener id de la categoría (necesario para crear el producto)
 # @name getCategory
-GET http://localhost:3000/categories/cafe
+GET http://localhost:3000/api/categories/cafe
 
 ###
 @categoryId = {{getCategory.response.body.$.[0]._id}}
 
 ### Obtener id del catálogo (necesario para crear el producto)
 # @name getCatalog
-GET http://localhost:3000/catalogs/slug/default-catalog
+GET http://localhost:3000/api/catalogs/slug/default-catalog
 
 ###
 @catalogId = {{getCatalog.response.body._id}}
 
 ### Crear Producto
 # @name createProduct
-POST http://localhost:3000/products
+POST http://localhost:3000/api/products
 Content-Type: application/json
 
 
 
 {
-    "name": "Café Arábica",
+    "name": "Caffé Arábica",
     "description": "Café Arábica de alta calidad",
     "price": 10.99,
     "stock": 100,
@@ -38,13 +38,13 @@ Content-Type: application/json
 
 @productId = {{createProduct.response.body._id}}
 ### Listar Productos
-GET http://localhost:3000/products
+GET http://localhost:3000/api/products
 
 ### Obtener Producto por ID
-GET http://localhost:3000/products/{{productId}}
+GET http://localhost:3000/api/products/{{productId}}
 
 ### Actualizar Producto
-PUT http://localhost:3000/products/{{productId}}
+PUT http://localhost:3000/api/products/{{productId}}
 Content-Type: application/json
 
 {
@@ -56,4 +56,4 @@ Content-Type: application/json
 }
 
 ### Eliminar Producto
-DELETE http://localhost:3000/products/{{productId}}
+DELETE http://localhost:3000/api/products/{{productId}}

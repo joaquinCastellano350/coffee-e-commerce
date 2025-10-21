@@ -5,11 +5,11 @@
 
 ### Crear Categoría
 # @name createCategory
-POST http://localhost:3000/categories
+POST http://localhost:3000/api/categories
 Content-Type: application/json
 
 {
-    "name": "cafe",
+    "name": "cafess",
     "description": "Categoría de café"
 }
 ###
@@ -17,11 +17,11 @@ Content-Type: application/json
 @categoryId = {{createCategory.response.body._id}}
 ### Crear Subcategoría
 # @name createSubcategory
-POST http://localhost:3000/categories/
+POST http://localhost:3000/api/categories/
 Content-Type: application/json
 
 {
-    "name": "torrado",
+    "name": "torrrado",
     "parent_id": "{{categoryId}}"
 }
 ###
@@ -29,14 +29,14 @@ Content-Type: application/json
 @categorySlug = {{createSubcategory.response.body.slug}}
 
 ### Listar Categorías
-GET http://localhost:3000/categories
+GET http://localhost:3000/api/categories
 
 ### Obtener Categoría por slug
 # Muestra la categoría asociada al slug y sus categorías padre.
-GET http://localhost:3000/categories/{{categorySlug}}
+GET http://localhost:3000/api/categories/{{categorySlug}}
 
 ### Actualizar Categoría
-PUT http://localhost:3000/categories/{{categoryId}}
+PUT http://localhost:3000/api/categories/{{categoryId}}
 Content-Type: application/json
 
 {
@@ -45,4 +45,4 @@ Content-Type: application/json
 }
 
 ### Eliminar Categoría
-DELETE http://localhost:3000/categories/{{categoryId}}
+DELETE http://localhost:3000/api/categories/{{categoryId}}

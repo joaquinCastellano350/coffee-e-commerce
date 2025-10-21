@@ -5,7 +5,7 @@
 
 ### Crear formulario
 # @name createForm
-POST http://localhost:3000/forms
+POST http://localhost:3000/api/forms
 Content-Type: application/json
 
 {
@@ -18,14 +18,14 @@ Content-Type: application/json
 @formId = {{createForm.response.body._id}}
 
 ### Obtener todos los formularios
-GET http://localhost:3000/forms
+GET http://localhost:3000/api/forms
 
 ### Obtener formulario por ID
-GET http://localhost:3000/forms/{{formId}}
+GET http://localhost:3000/api/forms/{{formId}}
 
 
 ### Actualizar formulario
-PUT http://localhost:3000/forms/{{formId}}
+PUT http://localhost:3000/api/forms/{{formId}}
 Content-Type: application/json
 
 {
@@ -36,4 +36,4 @@ Content-Type: application/json
 }
 
 ### Eliminar formulario
-DELETE http://localhost:3000/forms/{{formId}}
+DELETE http://localhost:3000/api/forms/{{formId}}

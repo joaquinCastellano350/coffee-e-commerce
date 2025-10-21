@@ -3,13 +3,14 @@ import {FormController} from "./form.controller.js";
 import { validate } from "../middlewares/validation.middleware.js"; 
 import { createformSchema, updateformSchema } from "./form.validation.js";
 
-export const formRouter = Router();
+export class FormRouter {
+    public readonly router = Router();
 
-const formController = new FormController();
-
-
-formRouter.get("/", formController.getAllForms);
-formRouter.get("/:id", formController.getFormById);
-formRouter.post("/", validate(createformSchema), formController.createForm);
-formRouter.put("/:id", validate(updateformSchema), formController.updateForm);
-formRouter.delete("/:id", formController.deleteForm);
+    constructor(formController: FormController) {
+        this.router.get("/", formController.getAllForms);
+        this.router.get("/:id", formController.getFormById);
+        this.router.post("/", validate(createformSchema), formController.createForm);
+        this.router.put("/:id", validate(updateformSchema), formController.updateForm);
+        this.router.delete("/:id", formController.deleteForm);
+    }
+}

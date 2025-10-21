@@ -7,11 +7,11 @@
 
 ### Crear Catálogo
 # @name createCatalog
-POST http://localhost:3000/catalogs
+POST http://localhost:3000/api/catalogs
 Content-Type: application/json
 
 {
-    "name": "default-catalog",
+    "name": "catalog",
     "description": "Descripción del nuevo catálogo",
     "visible": false,
     "startedAt": "2025-01-01T00:00:00Z",
@@ -22,14 +22,14 @@ Content-Type: application/json
 @catalogId = {{createCatalog.response.body._id}}
 
 ### Listar Catálogos
-GET http://localhost:3000/catalogs
+GET http://localhost:3000/api/catalogs
 
 ### Obtener Catálogo por ID
-GET http://localhost:3000/catalogs/id/{{catalogId}}
+GET http://localhost:3000/api/catalogs/id/{{catalogId}}
 
 
 ### Actualizar Catálogo
-PUT http://localhost:3000/catalogs/id/{{catalogId}}
+PUT http://localhost:3000/api/catalogs/id/{{catalogId}}
 Content-Type: application/json
 
 {
@@ -41,13 +41,13 @@ Content-Type: application/json
 }
 
 ### Eliminar Catálogo
-DELETE http://localhost:3000/catalogs/id/{{catalogId}}
+DELETE http://localhost:3000/api/catalogs/id/{{catalogId}}
 
 ### Desactivar catálogo
-PATCH http://localhost:3000/catalogs/id/{{catalogId}}/disable
+PATCH http://localhost:3000/api/catalogs/id/{{catalogId}}/disable
 
 ### Activar catálogo
-PATCH http://localhost:3000/catalogs/id/{{catalogId}}/enable
+PATCH http://localhost:3000/api/catalogs/id/{{catalogId}}/enable
 
 
 ### Obtener y filtrar los productos de un catálogo
@@ -56,7 +56,7 @@ PATCH http://localhost:3000/catalogs/id/{{catalogId}}/enable
 
 # Obtener productos del único catálogo activo 
 # Es conveniente ejecutar este endpoint después de haber creado productos en el catálogo (02_product.http).
-GET http://localhost:3000/catalogs/slug/catalog/products?category=cafe
+GET http://localhost:3000/api/catalogs/slug/catalog/products?category=cafe
 
 #Filtros usables como query params:
     # "name": <nombre del producto>
