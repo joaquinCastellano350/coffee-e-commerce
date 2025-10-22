@@ -1,0 +1,64 @@
+###
+# Archivo: 00_catalog.http
+# Requiere: Algunos endpoints pueden funcionar mejor con la existencia previa de productos.
+# Adicionales: 
+#   Por decisión de negocio, solo puede haber un catálogo activo simultáneamente.
+###
+
+### Crear Catálogo
+# @name createCatalog
+POST http://localhost:3000/api/catalogs
+Content-Type: application/json
+
+{
+    "name": "default catalog",
+    "description": "Descripción del nuevo catálogo",
+    "visible": false,
+    "startedAt": "2025-01-01T00:00:00Z",
+    "endedAt": "2025-12-31T23:59:59Z"
+}
+
+###
+@catalogId = {{createCatalog.response.body._id}}
+
+### Listar Catálogos
+GET http://localhost:3000/api/catalogs
+
+### Obtener Catálogo por ID
+GET http://localhost:3000/api/catalogs/id/{{catalogId}}
+
+
+### Actualizar Catálogo
+PUT http://localhost:3000/api/catalogs/id/{{catalogId}}
+Content-Type: application/json
+
+{
+    "name": "default-catalog-updated",
+    "description": "Descripción del catálogo actualizado",
+    "visible": true,
+    "startedAt": "2025-01-01T00:00:00Z",
+    "endedAt": "2025-12-31T23:59:59Z"
+}
+
+### Eliminar Catálogo
+DELETE http://localhost:3000/api/catalogs/id/{{catalogId}}
+
+### Desactivar catálogo
+PATCH http://localhost:3000/api/catalogs/id/{{catalogId}}/disable
+
+### Activar catálogo
+PATCH http://localhost:3000/api/catalogs/id/{{catalogId}}/enable
+
+
+### Obtener y filtrar los productos de un catálogo
+# Para obtener respuesta distinta de undefined deben haber productos cargados a ese catálogo.
+# El endpoint /catalogs/catalog busca automáticamente el catálogo activo. Si se quieren filtrar catálogos inactivos se usa el slug del catálogo.
+
+# Obtener productos del único catálogo activo 
+# Es conveniente ejecutar este endpoint después de haber creado productos en el catálogo (02_product.http).
+GET http://localhost:3000/api/catalogs/slug/catalog/products?tag=arabica
+
+#Filtros usables como query params:
+    # "tag": <tag del producto>
+    # "category": <slug de la categoría>
+    # "brand": <nombre de la marca>

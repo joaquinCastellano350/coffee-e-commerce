@@ -1,0 +1,48 @@
+###
+# Archivo: 01_category.http
+# Requiere: No hay requisitos previos para acceder a los endpoints de categoría.
+###
+
+### Crear Categoría
+# @name createCategory
+POST http://localhost:3000/api/categories
+Content-Type: application/json
+
+{
+    "name": "caffe",
+    "description": "Categoría de café"
+}
+###
+
+@categoryId = {{createCategory.response.body._id}}
+### Crear Subcategoría
+# @name createSubcategory
+POST http://localhost:3000/api/categories/
+Content-Type: application/json
+
+{
+    "name": "aaa",
+    "parent_id": "{{categoryId}}"
+}
+###
+
+@categorySlug = {{createSubcategory.response.body.slug}}
+
+### Listar Categorías
+GET http://localhost:3000/api/categories
+
+### Obtener Categoría por slug
+# Muestra la categoría asociada al slug y sus categorías padre.
+GET http://localhost:3000/api/categories/{{categorySlug}}
+
+### Actualizar Categoría
+PUT http://localhost:3000/api/categories/{{categoryId}}
+Content-Type: application/json
+
+{
+    "name": "cafffffe-updated",
+    "description": "Categoría de café actualizada"
+}
+
+### Eliminar Categoría
+DELETE http://localhost:3000/api/categories/{{categoryId}}
