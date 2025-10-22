@@ -1,7 +1,7 @@
-import slugify from 'slugify';
-import { formModel } from '../form/form.model.js'; 
+import slugify from "slugify";
+import { formModel } from "../form/form.model.js";
 
-export async function generateUniqueSlug(name: any): Promise<string> {
+export async function generateUniqueSlug(name: string): Promise<string> {
   const baseSlug = slugify(name, { lower: true, strict: true });
   let slug = baseSlug;
   let count = 0;
@@ -13,3 +13,4 @@ export async function generateUniqueSlug(name: any): Promise<string> {
 
   return slug;
 }
+// CORREGIR PARA TODOS LOS MODELOS (no solamente Form)

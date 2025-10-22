@@ -5,7 +5,7 @@
 
 ### Obtener id de la categoría (necesario para crear el producto)
 # @name getCategory
-GET http://localhost:3000/api/categories/cafe
+GET http://localhost:3000/api/categories/caffe
 
 ###
 @categoryId = {{getCategory.response.body.$.[0]._id}}
@@ -25,7 +25,7 @@ Content-Type: application/json
 
 
 {
-    "name": "Caffé Arábica",
+    "name": "Cafffffé Arábica",
     "description": "Café Arábica de alta calidad",
     "price": 10.99,
     "stock": 100,
@@ -48,7 +48,7 @@ PUT http://localhost:3000/api/products/{{productId}}
 Content-Type: application/json
 
 {
-    "name": "Café Arábica - Edición Limitada",
+    "name": "Café Araaábica - Edición Limitada",
     "description": "Café Arábica de alta calidad - Edición Limitada",
     "price": 12.99,
     "stock": 50,

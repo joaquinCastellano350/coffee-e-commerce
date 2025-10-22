@@ -9,7 +9,7 @@ POST http://localhost:3000/api/categories
 Content-Type: application/json
 
 {
-    "name": "cafess",
+    "name": "caffe",
     "description": "Categoría de café"
 }
 ###
@@ -21,7 +21,7 @@ POST http://localhost:3000/api/categories/
 Content-Type: application/json
 
 {
-    "name": "torrrado",
+    "name": "aaa",
     "parent_id": "{{categoryId}}"
 }
 ###
@@ -40,7 +40,7 @@ PUT http://localhost:3000/api/categories/{{categoryId}}
 Content-Type: application/json
 
 {
-    "name": "cafe-updated",
+    "name": "cafffffe-updated",
     "description": "Categoría de café actualizada"
 }
 

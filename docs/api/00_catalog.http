@@ -11,7 +11,7 @@ POST http://localhost:3000/api/catalogs
 Content-Type: application/json
 
 {
-    "name": "catalog",
+    "name": "default catalog",
     "description": "Descripción del nuevo catálogo",
     "visible": false,
     "startedAt": "2025-01-01T00:00:00Z",
@@ -56,9 +56,9 @@ PATCH http://localhost:3000/api/catalogs/id/{{catalogId}}/enable
 
 # Obtener productos del único catálogo activo 
 # Es conveniente ejecutar este endpoint después de haber creado productos en el catálogo (02_product.http).
-GET http://localhost:3000/api/catalogs/slug/catalog/products?category=cafe
+GET http://localhost:3000/api/catalogs/slug/catalog/products?tag=arabica
 
 #Filtros usables como query params:
-    # "name": <nombre del producto>
+    # "tag": <tag del producto>
     # "category": <slug de la categoría>
     # "brand": <nombre de la marca>

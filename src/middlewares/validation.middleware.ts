@@ -1,14 +1,13 @@
-import {Request, Response, NextFunction} from 'express';
-import { ZodObject} from 'zod';
-import { AppError } from '../utils/AppError.js';
+import { Request, Response, NextFunction } from "express";
+import { ZodObject, ZodRawShape } from "zod";
 
 export const validate =
-(schema: ZodObject<any>) => (req: Request, res: Response, next: NextFunction) => {
+  (schema: ZodObject<ZodRawShape>) =>
+  (req: Request, res: Response, next: NextFunction) => {
     try {
-        schema.parse(req.body);
-        next();
+      schema.parse(req.body);
+      next();
     } catch (error) {
-        next(error);
-        
+      next(error);
     }
-};
+  };
