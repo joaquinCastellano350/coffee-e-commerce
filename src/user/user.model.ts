@@ -5,6 +5,8 @@ export interface IUser extends Document {
   email: string;
   passwordHash: string;
   role: 'admin' | 'user';
+  createdAt?: Date;
+  updatedAt?: Date;
   setPassword(plain: string): Promise<void>;
   validatePassword(plain: string): Promise<boolean>;
 }
