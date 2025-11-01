@@ -1,6 +1,8 @@
 import { Router } from "express";
 import { validate } from "../middlewares/validation.middleware.js";
 import { CatalogController } from "./catalog.controller.js";
+import { requireAuth , requireRole } from "./../auth/auth.middleware.js";
+
 import {
   createCatalogSchema,
   updateCatalogSchema,
@@ -11,11 +13,6 @@ export class CatalogRouter {
   public readonly router = Router();
 
   constructor(catalogController: CatalogController) {
-    this.router.post(
-      "/",
-      validate(createCatalogSchema),
-      catalogController.createCatalog,
-    );
     this.router.get("/", catalogController.getAllCatalogs);
     this.router.get("/slug/:slug", catalogController.getCatalogBySlug);
     this.router.get("/id/:id", catalogController.getCatalogById);
@@ -23,6 +20,13 @@ export class CatalogRouter {
       "/slug/:slug/products",
       parseFilters,
       catalogController.getCatalogProducts,
+    );
+
+    this.router.use(requireAuth, requireRole("admin"));
+    this.router.post(
+      "/",
+      validate(createCatalogSchema),
+      catalogController.createCatalog,
     );
     this.router.put(
       "/id/:id",

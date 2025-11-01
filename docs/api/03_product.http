@@ -5,7 +5,8 @@
 
 ### Obtener id de la categoría (necesario para crear el producto)
 # @name getCategory
-GET http://localhost:3000/api/categories/caffe
+GET http://localhost:3000/api/categories/aaa
+Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDU1NzFjYTJlZWZkNGY2OTM2ZDhkYiIsImVtYWlsIjoiam9hcXVpbkBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MTk1ODgzNywiZXhwIjoxNzYxOTU5NzM3fQ.VA5_GWnvKKs5D_zUz_mx-3GMLi7CfrvlocQKNbtlvzc
 
 ###
 @categoryId = {{getCategory.response.body.$.[0]._id}}
@@ -21,7 +22,7 @@ GET http://localhost:3000/api/catalogs/slug/default-catalog
 # @name createProduct
 POST http://localhost:3000/api/products
 Content-Type: application/json
-
+Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDU1NzFjYTJlZWZkNGY2OTM2ZDhkYiIsImVtYWlsIjoiam9hcXVpbkBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MTk1ODgzNywiZXhwIjoxNzYxOTU5NzM3fQ.VA5_GWnvKKs5D_zUz_mx-3GMLi7CfrvlocQKNbtlvzc
 
 
 {
@@ -46,6 +47,8 @@ GET http://localhost:3000/api/products/{{productId}}
 ### Actualizar Producto
 PUT http://localhost:3000/api/products/{{productId}}
 Content-Type: application/json
+Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDU1NzFjYTJlZWZkNGY2OTM2ZDhkYiIsImVtYWlsIjoiam9hcXVpbkBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MTk1ODgzNywiZXhwIjoxNzYxOTU5NzM3fQ.VA5_GWnvKKs5D_zUz_mx-3GMLi7CfrvlocQKNbtlvzc
+
 
 {
     "name": "Café Araaábica - Edición Limitada",
@@ -57,3 +60,5 @@ Content-Type: application/json
 
 ### Eliminar Producto
 DELETE http://localhost:3000/api/products/{{productId}}
+Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDU1NzFjYTJlZWZkNGY2OTM2ZDhkYiIsImVtYWlsIjoiam9hcXVpbkBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MTk1ODgzNywiZXhwIjoxNzYxOTU5NzM3fQ.VA5_GWnvKKs5D_zUz_mx-3GMLi7CfrvlocQKNbtlvzc
+

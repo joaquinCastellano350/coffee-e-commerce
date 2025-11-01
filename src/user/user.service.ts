@@ -3,7 +3,10 @@ import type { LoginDTO, RegisterDTO, UserResponseDTO } from './user.dto.js';
 import { AppError } from '../utils/AppError.js';
 
 export class UserService {
-  constructor(private readonly repo: MongoUserRepository) {}
+  private readonly repo: MongoUserRepository;
+  constructor(repo: MongoUserRepository) {
+    this.repo = repo;
+  }
 
   async register(dto: RegisterDTO): Promise<UserResponseDTO> {
     const existing = await this.repo.findByEmail(dto.email);

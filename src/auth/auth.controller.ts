@@ -2,14 +2,17 @@ import {Request, Response, NextFunction} from 'express';
 import crypto from 'node:crypto';
 import { LoginDTO, RegisterDTO } from '../user/user.dto.js';
 import { UserService } from '../user/user.service.js';
-import { MongoUserRepository } from '../user/user.repository.js';
-import { signAccess, signRefresh } from './token.util';
+import { signAccess, signRefresh, verifyRefresh } from './token.util.js';
 import { AppError } from '../utils/AppError.js';
 
 export class AuthController {
     private userService: UserService;
-    constructor(userService?: UserService) {
-        this.userService = userService || new UserService(new MongoUserRepository());
+    constructor(userService: UserService) {
+        this.userService = userService
+        this.register = this.register.bind(this);
+        this.login = this.login.bind(this);
+        this.refresh = this.refresh.bind(this);
+        this.logout = this.logout.bind(this);
     }
 
     async register(req: Request, res: Response, next: NextFunction) {
@@ -39,6 +42,34 @@ export class AuthController {
             // ANGULAR ? res.cookie('XSRF-TOKEN', 'placeholder', {sameSite: 'lax'});
 
             res.json({ email: user.email, message: 'Login successful' });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async refresh(req: Request, res: Response, next: NextFunction) {
+        try {
+            const token = req.cookies?.refreshToken;
+            if (!token) {
+                throw new AppError('Unauthorized', 401);
+            }
+            const payload = verifyRefresh(token);
+            const accessToken = signAccess({ id: payload.id, email: payload.email, role: payload.role });
+            const newRefreshToken = signRefresh({ id: payload.id, email: payload.email, role: payload.role, jti: crypto.randomUUID() });
+            res.cookie('accessToken', accessToken, { httpOnly: true, secure: true, sameSite: 'lax', maxAge: 15 * 60 * 1000 });
+            res.cookie('refreshToken', newRefreshToken, { httpOnly: true, secure: true, sameSite: 'strict', maxAge: 7 * 24 * 60 * 60 * 1000 });
+            res.json({ email: payload.email, message: 'Token refreshed successfully' });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async logout(req: Request, res: Response, next: NextFunction) {
+        try {
+            res.clearCookie('accessToken');
+            res.clearCookie('refreshToken');
+            // ANGULAR ? res.clearCookie('XSRF-TOKEN');
+            res.status(204).send();
         } catch (error) {
             next(error);
         }

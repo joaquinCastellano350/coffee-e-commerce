@@ -25,3 +25,5 @@ export function requireRole(...roles: Array<'admin' | 'user'>) {
         next();
     };
 }
+
+//attachUserIfPresent ---> rutas que no requieren auth pero puede servir tener al user

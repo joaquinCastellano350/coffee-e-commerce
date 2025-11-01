@@ -9,6 +9,7 @@
 # @name createCatalog
 POST http://localhost:3000/api/catalogs
 Content-Type: application/json
+Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDU1NzFjYTJlZWZkNGY2OTM2ZDhkYiIsImVtYWlsIjoiam9hcXVpbkBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MTk1NzcyMywiZXhwIjoxNzYxOTU4NjIzfQ.EKhyXzmMvZalOegixit2k84pjJkcHgA3WCMn2c3OUnI
 
 {
     "name": "default catalog",
@@ -17,7 +18,6 @@ Content-Type: application/json
     "startedAt": "2025-01-01T00:00:00Z",
     "endedAt": "2025-12-31T23:59:59Z"
 }
-
 ###
 @catalogId = {{createCatalog.response.body._id}}
 
@@ -25,12 +25,13 @@ Content-Type: application/json
 GET http://localhost:3000/api/catalogs
 
 ### Obtener Catálogo por ID
-GET http://localhost:3000/api/catalogs/id/{{catalogId}}
+GET http://localhost:3000/api/catalogs/id/6905590ca2eefd4f6936d8ff
 
 
 ### Actualizar Catálogo
-PUT http://localhost:3000/api/catalogs/id/{{catalogId}}
+PUT http://localhost:3000/api/catalogs/id/690557c8a2eefd4f6936d8e0
 Content-Type: application/json
+Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDU1NzFjYTJlZWZkNGY2OTM2ZDhkYiIsImVtYWlsIjoiam9hcXVpbkBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MTk1NzcyMywiZXhwIjoxNzYxOTU4NjIzfQ.EKhyXzmMvZalOegixit2k84pjJkcHgA3WCMn2c3OUnI
 
 {
     "name": "default-catalog-updated",
@@ -41,13 +42,16 @@ Content-Type: application/json
 }
 
 ### Eliminar Catálogo
-DELETE http://localhost:3000/api/catalogs/id/{{catalogId}}
+DELETE http://localhost:3000/api/catalogs/id/690557c8a2eefd4f6936d8e0
+Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDU1NzFjYTJlZWZkNGY2OTM2ZDhkYiIsImVtYWlsIjoiam9hcXVpbkBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MTk1NzcyMywiZXhwIjoxNzYxOTU4NjIzfQ.EKhyXzmMvZalOegixit2k84pjJkcHgA3WCMn2c3OUnI
 
 ### Desactivar catálogo
-PATCH http://localhost:3000/api/catalogs/id/{{catalogId}}/disable
+PATCH http://localhost:3000/api/catalogs/id/6905590ca2eefd4f6936d8ff/disable
+Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDU1NzFjYTJlZWZkNGY2OTM2ZDhkYiIsImVtYWlsIjoiam9hcXVpbkBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MTk1NzcyMywiZXhwIjoxNzYxOTU4NjIzfQ.EKhyXzmMvZalOegixit2k84pjJkcHgA3WCMn2c3OUnI
 
 ### Activar catálogo
-PATCH http://localhost:3000/api/catalogs/id/{{catalogId}}/enable
+PATCH http://localhost:3000/api/catalogs/id/6905590ca2eefd4f6936d8ff/enable
+Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDU1NzFjYTJlZWZkNGY2OTM2ZDhkYiIsImVtYWlsIjoiam9hcXVpbkBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MTk1NzcyMywiZXhwIjoxNzYxOTU4NjIzfQ.EKhyXzmMvZalOegixit2k84pjJkcHgA3WCMn2c3OUnI
 
 
 ### Obtener y filtrar los productos de un catálogo
