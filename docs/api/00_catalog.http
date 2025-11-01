@@ -9,10 +9,10 @@
 # @name createCatalog
 POST http://localhost:3000/api/catalogs
 Content-Type: application/json
-Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDU1NzFjYTJlZWZkNGY2OTM2ZDhkYiIsImVtYWlsIjoiam9hcXVpbkBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MTk1NzcyMywiZXhwIjoxNzYxOTU4NjIzfQ.EKhyXzmMvZalOegixit2k84pjJkcHgA3WCMn2c3OUnI
+Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDU1NzFjYTJlZWZkNGY2OTM2ZDhkYiIsImVtYWlsIjoiam9hcXVpbkBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MjAxNDQ4MSwiZXhwIjoxNzYyMDE1MzgxfQ.U3wbCqoRtlqvIDyINXiM06swUUDh09uxTaQr8GzVu8I
 
 {
-    "name": "default catalog",
+    "name": "defaultt catalog",
     "description": "Descripción del nuevo catálogo",
     "visible": false,
     "startedAt": "2025-01-01T00:00:00Z",
@@ -51,16 +51,18 @@ Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDU1NzFjYTJ
 
 ### Activar catálogo
 PATCH http://localhost:3000/api/catalogs/id/6905590ca2eefd4f6936d8ff/enable
-Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDU1NzFjYTJlZWZkNGY2OTM2ZDhkYiIsImVtYWlsIjoiam9hcXVpbkBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MTk1NzcyMywiZXhwIjoxNzYxOTU4NjIzfQ.EKhyXzmMvZalOegixit2k84pjJkcHgA3WCMn2c3OUnI
-
+Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDU1NzFjYTJlZWZkNGY2OTM2ZDhkYiIsImVtYWlsIjoiam9hcXVpbkBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MjAxNDQ4MSwiZXhwIjoxNzYyMDE1MzgxfQ.U3wbCqoRtlqvIDyINXiM06swUUDh09uxTaQr8GzVu8I
 
 ### Obtener y filtrar los productos de un catálogo
 # Para obtener respuesta distinta de undefined deben haber productos cargados a ese catálogo.
-# El endpoint /catalogs/catalog busca automáticamente el catálogo activo. Si se quieren filtrar catálogos inactivos se usa el slug del catálogo.
 
 # Obtener productos del único catálogo activo 
 # Es conveniente ejecutar este endpoint después de haber creado productos en el catálogo (02_product.http).
 GET http://localhost:3000/api/catalogs/slug/catalog/products?tag=arabica
+
+
+### Obtener productos del catalogo activo
+GET http://localhost:3000/api/catalogs/products
 
 #Filtros usables como query params:
     # "tag": <tag del producto>

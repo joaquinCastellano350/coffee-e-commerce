@@ -13,15 +13,7 @@ export class CatalogRouter {
   public readonly router = Router();
 
   constructor(catalogController: CatalogController) {
-    this.router.get("/", catalogController.getAllCatalogs);
-    this.router.get("/slug/:slug", catalogController.getCatalogBySlug);
-    this.router.get("/id/:id", catalogController.getCatalogById);
-    this.router.get(
-      "/slug/:slug/products",
-      parseFilters,
-      catalogController.getCatalogProducts,
-    );
-
+    this.router.get('/products', parseFilters, catalogController.getCatalogProducts);
     this.router.use(requireAuth, requireRole("admin"));
     this.router.post(
       "/",
@@ -36,5 +28,13 @@ export class CatalogRouter {
     this.router.delete("/id/:id", catalogController.deleteCatalog);
     this.router.patch("/id/:id/disable", catalogController.disableCatalog);
     this.router.patch("/id/:id/enable", catalogController.enableCatalog);
+    this.router.get("/", catalogController.getAllCatalogs);
+    this.router.get("/slug/:slug", catalogController.getCatalogBySlug);
+    this.router.get("/id/:id", catalogController.getCatalogById);
+    this.router.get(
+      "/slug/:slug/products",
+      parseFilters,
+      catalogController.getCatalogProducts,
+    );
   }
 }
