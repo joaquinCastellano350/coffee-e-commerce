@@ -14,7 +14,7 @@ export class UserService {
 
     const user = await this.repo.add({
       email: dto.email,
-      role: dto.role ?? 'user',
+      role: 'user',
       passwordHash: 'pending'
     });
 
@@ -30,6 +30,21 @@ export class UserService {
     if (!user) return null;
     const valid = await user.validatePassword(dto.password);
     if (!valid) return null;
+    return this.toDTO(user);
+  }
+
+  async changeUserRole(userId: string, role: string): Promise<UserResponseDTO> {
+    if (!['user', 'admin'].includes(role)) {
+      throw new AppError('Invalid role specified', 400);
+    }
+    
+    const user = await this.repo.findById(userId);
+    if (!user) {
+      throw new AppError('User not found', 404);
+    }
+
+    user.role = 'admin' === role ? 'admin' : 'user';
+    await user.save();
     return this.toDTO(user);
   }
 

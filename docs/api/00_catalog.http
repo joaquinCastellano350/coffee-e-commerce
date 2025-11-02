@@ -9,10 +9,10 @@
 # @name createCatalog
 POST http://localhost:3000/api/catalogs
 Content-Type: application/json
-Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDU1NzFjYTJlZWZkNGY2OTM2ZDhkYiIsImVtYWlsIjoiam9hcXVpbkBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MjAxNDQ4MSwiZXhwIjoxNzYyMDE1MzgxfQ.U3wbCqoRtlqvIDyINXiM06swUUDh09uxTaQr8GzVu8I
+Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDZjM2QwMDVjN2ViOGE4MmEzMDVmOSIsImVtYWlsIjoiam9hcXVpbkBhZG1pbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NjIwNTEwODUsImV4cCI6MTc2MjA1MTk4NX0.KDGHoV4xsnbUGWTrUu8ZKPFLQkIzoc6h_Vf5LKb6E5k
 
 {
-    "name": "defaultt catalog",
+    "name": "cancha",
     "description": "Descripción del nuevo catálogo",
     "visible": false,
     "startedAt": "2025-01-01T00:00:00Z",

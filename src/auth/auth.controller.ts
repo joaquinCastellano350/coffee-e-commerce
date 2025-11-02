@@ -6,6 +6,7 @@ import { signAccess, signRefresh, verifyRefresh } from './token.util.js';
 import { AppError } from '../utils/AppError.js';
 
 export class AuthController {
+    
     private userService: UserService;
     constructor(userService: UserService) {
         this.userService = userService
@@ -13,6 +14,7 @@ export class AuthController {
         this.login = this.login.bind(this);
         this.refresh = this.refresh.bind(this);
         this.logout = this.logout.bind(this);
+        this.changeRole = this.changeRole.bind(this);
     }
 
     async register(req: Request, res: Response, next: NextFunction) {
@@ -70,6 +72,16 @@ export class AuthController {
             res.clearCookie('refreshToken');
             // ANGULAR ? res.clearCookie('XSRF-TOKEN');
             res.status(204).send();
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async changeRole(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { userId, role } = req.params;
+            const updatedUser = await this.userService.changeUserRole(userId, role);
+            res.json({ email: updatedUser.email, role: updatedUser.role });
         } catch (error) {
             next(error);
         }

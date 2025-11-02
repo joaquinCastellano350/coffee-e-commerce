@@ -9,7 +9,8 @@
     "start:dev": "tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node ./dist/server.js\"",
     "format": "prettier --write .",
     "lint": "eslint . ",
-    "lint:fix": "eslint . --fix "
+    "lint:fix": "eslint . --fix ",
+    "seed:admin": "node --loader ts-node/esm ./scripts/seed-admin.ts"
   },
   "author": "",
   "license": "ISC",
@@ -22,6 +23,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.18.0",
     "mongoose": "^8.16.5",
+    "ts-node": "^10.9.2",
     "zod": "^4.0.13"
   },
   "devDependencies": {
