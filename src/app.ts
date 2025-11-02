@@ -1,6 +1,13 @@
 import express from "express";
+import cookieParser from "cookie-parser";
+
 import { ErrorRequestHandler } from "express";
 import { errorHandler } from "./middlewares/error.middleware.js";
+
+import { AuthController } from "./auth/auth.controller.js";
+import { MongoUserRepository } from "./user/user.repository.js";
+import { UserService } from "./user/user.service.js";
+import { AuthRouter } from "./auth/auth.routes.js";
 
 import { ProductController } from "./product/product.controller.js";
 import { MongoProductRepository } from "./product/product.repository.js";
@@ -40,6 +47,9 @@ export class App {
     formRepository,
     formController,
     formService,
+    userRepository,
+    authController,
+    userService,
   }: {
     productRepository?: MongoProductRepository;
     productController?: ProductController;
@@ -53,37 +63,48 @@ export class App {
     formRepository?: MongoFormRepository;
     formController?: FormController;
     formService?: FormService;
+    userRepository?: MongoUserRepository;
+    authController?: AuthController;
+    userService?: UserService;
   } = {}) {
     this.app = express();
     this.app.use(express.json());
+    this.app.use(cookieParser());
+    this.app.use(errorHandler as ErrorRequestHandler);
+
+
+    const userRepo = userRepository || new MongoUserRepository();
+    const userServ = userService || new UserService(userRepo);
+    const authCont = authController || new AuthController(userServ);
+    const authRouter = new AuthRouter(authCont);
 
     const productRepo = productRepository || new MongoProductRepository();
     const productServ = productService || new ProductService(productRepo);
     const productCont = productController || new ProductController(productServ);
     const productRouter = new ProductRouter(productCont);
-
+    
     const categoryRepo = categoryRepository || new MongoCategoryRepository();
     const categoryServ = categoryService || new CategoryService(categoryRepo);
     const categoryCont =
-      categoryController || new CategoryController(categoryServ);
+    categoryController || new CategoryController(categoryServ);
     const categoryRouter = new CategoryRouter(categoryCont);
-
+    
     const catalogRepo = catalogRepository || new MongoCatalogRepository();
     const catalogServ =
-      catalogService || new CatalogService(catalogRepo, productRepo);
+    catalogService || new CatalogService(catalogRepo, productRepo);
     const catalogCont = catalogController || new CatalogController(catalogServ);
     const catalogRouter = new CatalogRouter(catalogCont);
-
+    
     const formRepo = formRepository || new MongoFormRepository();
     const formServ = formService || new FormService(formRepo);
     const formCont = formController || new FormController(formServ);
     const formRouter = new FormRouter(formCont);
-
+    
+    this.app.use("/auth", authRouter.router);
     this.app.use("/api/products", productRouter.router);
     this.app.use("/api/categories", categoryRouter.router);
     this.app.use("/api/catalogs", catalogRouter.router);
     this.app.use("/api/forms", formRouter.router);
-    this.app.use(errorHandler as ErrorRequestHandler);
   }
   static getDefaults() {
     const productRepository = new MongoProductRepository();

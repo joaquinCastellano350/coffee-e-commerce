@@ -24,7 +24,7 @@ export class CatalogController {
     next: NextFunction,
   ) {
     try {
-      const slug = req.params.slug;
+      const slug = req.params.slug || 'catalog';
       const products = await this.catalogService.getCatalogProducts(
         slug,
         req.filters ?? {},
