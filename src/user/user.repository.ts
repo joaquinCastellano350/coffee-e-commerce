@@ -15,6 +15,28 @@ export class MongoUserRepository implements UserRepository {
   async add(data: Partial<IUser>) {
     return await UserModel.create(data);
   }
-  
-  
+  async getWishlist(userId: string) {
+    const user = await UserModel.findById(userId)
+    .populate({path: 'wishlist', select: 'name price imageURL category_slug'})
+    .select('wishlist')
+    .lean();
+    return user?.wishlist || [];
+  }
+  async updateWishlist(userId: string, wishlist: string[]) {
+      const result = await UserModel.findOneAndUpdate({_id: userId}, 
+        {$addToSet: {wishlist: {$each: wishlist}}},
+        {new: true},
+      ).populate({path: 'wishlist', select: 'name price imageURL category_slug'})
+      .select('wishlist')
+      .lean();
+      return result;
+    
+  }
+  async removeFromWishlist(userId: string, productId: string) {
+    await UserModel.updateOne({
+      _id: userId
+    }, {
+      $pull: { wishlist: productId }
+    });
+  }
 }

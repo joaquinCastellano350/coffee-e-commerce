@@ -14,6 +14,10 @@ export class MongoProductRepository implements ProductRepository {
     const product = await ProductModel.findById(id);
     return product;
   }
+  async findMany(ids: string[]): Promise<IProduct[]> {
+    const products = await ProductModel.find({ _id: { $in: ids } });
+    return products;
+  }
   async add(data: Partial<IProduct>): Promise<IProduct | null> {
     const product = new ProductModel(data);
     return await product.save();
