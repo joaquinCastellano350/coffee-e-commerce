@@ -4,7 +4,7 @@ info:
   version: 1.0.0
   description: |
     REST API for authentication, catalog, categories, products, forms, and wishlist.
-    
+
     Auth uses HTTP-only cookies:
     - `accessToken` for protected endpoints
     - `refreshToken` for `/auth/refresh`
@@ -78,7 +78,7 @@ components:
       required: [name]
     UpdateCategoryRequest:
       allOf:
-        - $ref: '#/components/schemas/CreateCategoryRequest'
+        - $ref: "#/components/schemas/CreateCategoryRequest"
     Catalog:
       type: object
       properties:
@@ -101,7 +101,7 @@ components:
       required: [name]
     UpdateCatalogRequest:
       allOf:
-        - $ref: '#/components/schemas/CreateCatalogRequest'
+        - $ref: "#/components/schemas/CreateCatalogRequest"
     Product:
       type: object
       properties:
@@ -136,7 +136,7 @@ components:
       required: [name, price, stock]
     UpdateProductRequest:
       allOf:
-        - $ref: '#/components/schemas/CreateProductRequest'
+        - $ref: "#/components/schemas/CreateProductRequest"
     Form:
       type: object
       properties:
@@ -157,7 +157,7 @@ components:
       required: [name, phone]
     UpdateFormRequest:
       allOf:
-        - $ref: '#/components/schemas/CreateFormRequest'
+        - $ref: "#/components/schemas/CreateFormRequest"
     WishlistItem:
       type: object
       description: Product summary returned in wishlist operations
@@ -183,14 +183,22 @@ paths:
         required: true
         content:
           application/json:
-            schema: { $ref: '#/components/schemas/RegisterRequest' }
+            schema: { $ref: "#/components/schemas/RegisterRequest" }
       responses:
-        '201':
+        "201":
           description: Created
           content:
             application/json:
-              schema: { $ref: '#/components/schemas/User' }
-        '409': { description: Email already in use, content: { application/json: { schema: { $ref: '#/components/schemas/ErrorResponse' } } } }
+              schema: { $ref: "#/components/schemas/User" }
+        "409":
+          {
+            description: Email already in use,
+            content:
+              {
+                application/json:
+                  { schema: { $ref: "#/components/schemas/ErrorResponse" } },
+              },
+          }
   /auth/login:
     post:
       tags: [Auth]
@@ -199,9 +207,9 @@ paths:
         required: true
         content:
           application/json:
-            schema: { $ref: '#/components/schemas/LoginRequest' }
+            schema: { $ref: "#/components/schemas/LoginRequest" }
       responses:
-        '200':
+        "200":
           description: OK (cookies set)
           headers:
             Set-Cookie:
@@ -209,14 +217,14 @@ paths:
               schema: { type: string }
           content:
             application/json:
-              schema: { $ref: '#/components/schemas/LoginResponse' }
-        '401': { description: Invalid credentials }
+              schema: { $ref: "#/components/schemas/LoginResponse" }
+        "401": { description: Invalid credentials }
   /auth/logout:
     post:
       tags: [Auth]
       summary: Logout and clear cookies
       responses:
-        '204': { description: No Content }
+        "204": { description: No Content }
   /auth/refresh:
     post:
       tags: [Auth]
@@ -224,7 +232,7 @@ paths:
       security:
         - RefreshTokenCookie: []
       responses:
-        '200':
+        "200":
           description: OK (cookies set)
           headers:
             Set-Cookie:
@@ -232,9 +240,9 @@ paths:
               schema: { type: string }
           content:
             application/json:
-              schema: { $ref: '#/components/schemas/LoginResponse' }
-        '401': { description: Unauthorized }
-  /auth/change-role/{userId}/{role}:
+              schema: { $ref: "#/components/schemas/LoginResponse" }
+        "401": { description: Unauthorized }
+  /auth/change-role/{userEmail}/{role}:
     patch:
       tags: [Auth]
       summary: Change user role (admin only)
@@ -243,7 +251,7 @@ paths:
         - AccessTokenCookie: []
       parameters:
         - in: path
-          name: userId
+          name: userEmail
           required: true
           schema: { type: string }
         - in: path
@@ -251,9 +259,17 @@ paths:
           required: true
           schema: { type: string, enum: [user, admin] }
       responses:
-        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/User' } } } }
-        '403': { description: Forbidden }
-        '404': { description: User not found }
+        "200":
+          {
+            description: OK,
+            content:
+              {
+                application/json:
+                  { schema: { $ref: "#/components/schemas/User" } },
+              },
+          }
+        "403": { description: Forbidden }
+        "404": { description: User not found }
 
   /api/products:
     get:
@@ -262,8 +278,22 @@ paths:
       security:
         - AccessTokenCookie: []
       responses:
-        '200': { description: OK, content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/Product' } } } } }
-        '401': { description: Unauthorized }
+        "200":
+          {
+            description: OK,
+            content:
+              {
+                application/json:
+                  {
+                    schema:
+                      {
+                        type: array,
+                        items: { $ref: "#/components/schemas/Product" },
+                      },
+                  },
+              },
+          }
+        "401": { description: Unauthorized }
     post:
       tags: [Products]
       summary: Create product (admin only)
@@ -273,11 +303,19 @@ paths:
         required: true
         content:
           application/json:
-            schema: { $ref: '#/components/schemas/CreateProductRequest' }
+            schema: { $ref: "#/components/schemas/CreateProductRequest" }
       responses:
-        '201': { description: Created, content: { application/json: { schema: { $ref: '#/components/schemas/Product' } } } }
-        '400': { description: Validation error }
-        '401': { description: Unauthorized }
+        "201":
+          {
+            description: Created,
+            content:
+              {
+                application/json:
+                  { schema: { $ref: "#/components/schemas/Product" } },
+              },
+          }
+        "400": { description: Validation error }
+        "401": { description: Unauthorized }
   /api/products/{id}:
     get:
       tags: [Products]
@@ -288,8 +326,16 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Product' } } } }
-        '404': { description: Not found }
+        "200":
+          {
+            description: OK,
+            content:
+              {
+                application/json:
+                  { schema: { $ref: "#/components/schemas/Product" } },
+              },
+          }
+        "404": { description: Not found }
     put:
       tags: [Products]
       summary: Update product (admin only)
@@ -304,11 +350,19 @@ paths:
         required: true
         content:
           application/json:
-            schema: { $ref: '#/components/schemas/UpdateProductRequest' }
+            schema: { $ref: "#/components/schemas/UpdateProductRequest" }
       responses:
-        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Product' } } } }
-        '401': { description: Unauthorized }
-        '404': { description: Not found }
+        "200":
+          {
+            description: OK,
+            content:
+              {
+                application/json:
+                  { schema: { $ref: "#/components/schemas/Product" } },
+              },
+          }
+        "401": { description: Unauthorized }
+        "404": { description: Not found }
     delete:
       tags: [Products]
       summary: Delete product (admin only)
@@ -320,21 +374,21 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '204': { description: No Content }
-        '401': { description: Unauthorized }
+        "204": { description: No Content }
+        "401": { description: Unauthorized }
 
   /api/categories:
     get:
       tags: [Categories]
       summary: List categories (public)
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 type: array
-                items: { $ref: '#/components/schemas/Category' }
+                items: { $ref: "#/components/schemas/Category" }
     post:
       tags: [Categories]
       summary: Create category (admin only)
@@ -344,10 +398,18 @@ paths:
         required: true
         content:
           application/json:
-            schema: { $ref: '#/components/schemas/CreateCategoryRequest' }
+            schema: { $ref: "#/components/schemas/CreateCategoryRequest" }
       responses:
-        '201': { description: Created, content: { application/json: { schema: { $ref: '#/components/schemas/Category' } } } }
-        '401': { description: Unauthorized }
+        "201":
+          {
+            description: Created,
+            content:
+              {
+                application/json:
+                  { schema: { $ref: "#/components/schemas/Category" } },
+              },
+          }
+        "401": { description: Unauthorized }
   /api/categories/{id}:
     put:
       tags: [Categories]
@@ -363,11 +425,19 @@ paths:
         required: true
         content:
           application/json:
-            schema: { $ref: '#/components/schemas/UpdateCategoryRequest' }
+            schema: { $ref: "#/components/schemas/UpdateCategoryRequest" }
       responses:
-        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Category' } } } }
-        '401': { description: Unauthorized }
-        '404': { description: Not found }
+        "200":
+          {
+            description: OK,
+            content:
+              {
+                application/json:
+                  { schema: { $ref: "#/components/schemas/Category" } },
+              },
+          }
+        "401": { description: Unauthorized }
+        "404": { description: Not found }
     delete:
       tags: [Categories]
       summary: Delete category (admin only)
@@ -379,8 +449,8 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '204': { description: No Content }
-        '401': { description: Unauthorized }
+        "204": { description: No Content }
+        "401": { description: Unauthorized }
   /api/categories/{slug}:
     get:
       tags: [Categories]
@@ -391,8 +461,16 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Category' } } } }
-        '404': { description: Not found }
+        "200":
+          {
+            description: OK,
+            content:
+              {
+                application/json:
+                  { schema: { $ref: "#/components/schemas/Category" } },
+              },
+          }
+        "404": { description: Not found }
 
   /api/catalogs:
     get:
@@ -401,8 +479,22 @@ paths:
       security:
         - AccessTokenCookie: []
       responses:
-        '200': { description: OK, content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/Catalog' } } } } }
-        '401': { description: Unauthorized }
+        "200":
+          {
+            description: OK,
+            content:
+              {
+                application/json:
+                  {
+                    schema:
+                      {
+                        type: array,
+                        items: { $ref: "#/components/schemas/Catalog" },
+                      },
+                  },
+              },
+          }
+        "401": { description: Unauthorized }
     post:
       tags: [Catalogs]
       summary: Create catalog (admin only)
@@ -412,10 +504,18 @@ paths:
         required: true
         content:
           application/json:
-            schema: { $ref: '#/components/schemas/CreateCatalogRequest' }
+            schema: { $ref: "#/components/schemas/CreateCatalogRequest" }
       responses:
-        '201': { description: Created, content: { application/json: { schema: { $ref: '#/components/schemas/Catalog' } } } }
-        '401': { description: Unauthorized }
+        "201":
+          {
+            description: Created,
+            content:
+              {
+                application/json:
+                  { schema: { $ref: "#/components/schemas/Catalog" } },
+              },
+          }
+        "401": { description: Unauthorized }
   /api/catalogs/id/{id}:
     get:
       tags: [Catalogs]
@@ -428,9 +528,17 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Catalog' } } } }
-        '401': { description: Unauthorized }
-        '404': { description: Not found }
+        "200":
+          {
+            description: OK,
+            content:
+              {
+                application/json:
+                  { schema: { $ref: "#/components/schemas/Catalog" } },
+              },
+          }
+        "401": { description: Unauthorized }
+        "404": { description: Not found }
     put:
       tags: [Catalogs]
       summary: Update catalog (admin only)
@@ -445,10 +553,18 @@ paths:
         required: true
         content:
           application/json:
-            schema: { $ref: '#/components/schemas/UpdateCatalogRequest' }
+            schema: { $ref: "#/components/schemas/UpdateCatalogRequest" }
       responses:
-        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Catalog' } } } }
-        '401': { description: Unauthorized }
+        "200":
+          {
+            description: OK,
+            content:
+              {
+                application/json:
+                  { schema: { $ref: "#/components/schemas/Catalog" } },
+              },
+          }
+        "401": { description: Unauthorized }
     delete:
       tags: [Catalogs]
       summary: Delete catalog (admin only)
@@ -460,8 +576,8 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '204': { description: No Content }
-        '401': { description: Unauthorized }
+        "204": { description: No Content }
+        "401": { description: Unauthorized }
   /api/catalogs/id/{id}/disable:
     patch:
       tags: [Catalogs]
@@ -474,8 +590,16 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Catalog' } } } }
-        '401': { description: Unauthorized }
+        "200":
+          {
+            description: OK,
+            content:
+              {
+                application/json:
+                  { schema: { $ref: "#/components/schemas/Catalog" } },
+              },
+          }
+        "401": { description: Unauthorized }
   /api/catalogs/id/{id}/enable:
     patch:
       tags: [Catalogs]
@@ -488,8 +612,16 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Catalog' } } } }
-        '401': { description: Unauthorized }
+        "200":
+          {
+            description: OK,
+            content:
+              {
+                application/json:
+                  { schema: { $ref: "#/components/schemas/Catalog" } },
+              },
+          }
+        "401": { description: Unauthorized }
   /api/catalogs/slug/{slug}:
     get:
       tags: [Catalogs]
@@ -502,9 +634,17 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Catalog' } } } }
-        '401': { description: Unauthorized }
-        '404': { description: Not found }
+        "200":
+          {
+            description: OK,
+            content:
+              {
+                application/json:
+                  { schema: { $ref: "#/components/schemas/Catalog" } },
+              },
+          }
+        "401": { description: Unauthorized }
+        "404": { description: Not found }
   /api/catalogs/slug/{slug}/products:
     get:
       tags: [Catalogs]
@@ -527,8 +667,22 @@ paths:
           name: brand
           schema: { type: string }
       responses:
-        '200': { description: OK, content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/Product' } } } } }
-        '401': { description: Unauthorized }
+        "200":
+          {
+            description: OK,
+            content:
+              {
+                application/json:
+                  {
+                    schema:
+                      {
+                        type: array,
+                        items: { $ref: "#/components/schemas/Product" },
+                      },
+                  },
+              },
+          }
+        "401": { description: Unauthorized }
   /api/catalogs/products:
     get:
       tags: [Catalogs]
@@ -545,7 +699,21 @@ paths:
           name: brand
           schema: { type: string }
       responses:
-        '200': { description: OK, content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/Product' } } } } }
+        "200":
+          {
+            description: OK,
+            content:
+              {
+                application/json:
+                  {
+                    schema:
+                      {
+                        type: array,
+                        items: { $ref: "#/components/schemas/Product" },
+                      },
+                  },
+              },
+          }
 
   /api/forms:
     get:
@@ -554,8 +722,22 @@ paths:
       security:
         - AccessTokenCookie: []
       responses:
-        '200': { description: OK, content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/Form' } } } } }
-        '401': { description: Unauthorized }
+        "200":
+          {
+            description: OK,
+            content:
+              {
+                application/json:
+                  {
+                    schema:
+                      {
+                        type: array,
+                        items: { $ref: "#/components/schemas/Form" },
+                      },
+                  },
+              },
+          }
+        "401": { description: Unauthorized }
     post:
       tags: [Forms]
       summary: Create form (public)
@@ -563,14 +745,22 @@ paths:
         required: true
         content:
           application/json:
-            schema: { $ref: '#/components/schemas/CreateFormRequest' }
+            schema: { $ref: "#/components/schemas/CreateFormRequest" }
       responses:
-        '201': { description: Created, content: { application/json: { schema: { $ref: '#/components/schemas/Form' } } } }
+        "201":
+          {
+            description: Created,
+            content:
+              {
+                application/json:
+                  { schema: { $ref: "#/components/schemas/Form" } },
+              },
+          }
     put:
       summary: (Not used)
       description: Operation not defined; use `/api/forms/{id}` for updates.
       responses:
-        '404': { description: Not Found }
+        "404": { description: Not Found }
   /api/forms/{id}:
     get:
       tags: [Forms]
@@ -583,9 +773,17 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Form' } } } }
-        '401': { description: Unauthorized }
-        '404': { description: Not found }
+        "200":
+          {
+            description: OK,
+            content:
+              {
+                application/json:
+                  { schema: { $ref: "#/components/schemas/Form" } },
+              },
+          }
+        "401": { description: Unauthorized }
+        "404": { description: Not found }
     put:
       tags: [Forms]
       summary: Update form (public)
@@ -598,9 +796,17 @@ paths:
         required: true
         content:
           application/json:
-            schema: { $ref: '#/components/schemas/UpdateFormRequest' }
+            schema: { $ref: "#/components/schemas/UpdateFormRequest" }
       responses:
-        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Form' } } } }
+        "200":
+          {
+            description: OK,
+            content:
+              {
+                application/json:
+                  { schema: { $ref: "#/components/schemas/Form" } },
+              },
+          }
     delete:
       tags: [Forms]
       summary: Delete form (admin only)
@@ -612,8 +818,8 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '204': { description: No Content }
-        '401': { description: Unauthorized }
+        "204": { description: No Content }
+        "401": { description: Unauthorized }
 
   /api/wishlist:
     get:
@@ -622,14 +828,14 @@ paths:
       security:
         - AccessTokenCookie: []
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 type: array
-                items: { $ref: '#/components/schemas/WishlistItem' }
-        '401': { description: Unauthorized }
+                items: { $ref: "#/components/schemas/WishlistItem" }
+        "401": { description: Unauthorized }
   /api/wishlist/{productId}:
     post:
       tags: [Wishlist]
@@ -642,7 +848,7 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '201':
+        "201":
           description: Created
           content:
             application/json:
@@ -651,8 +857,8 @@ paths:
                 properties:
                   message: { type: string }
                 required: [message]
-        '401': { description: Unauthorized }
-        '404': { description: Product not found }
+        "401": { description: Unauthorized }
+        "404": { description: Product not found }
     delete:
       tags: [Wishlist]
       summary: Remove product from wishlist
@@ -664,8 +870,8 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '204': { description: No Content }
-        '401': { description: Unauthorized }
+        "204": { description: No Content }
+        "401": { description: Unauthorized }
   /api/wishlist/merge:
     post:
       tags: [Wishlist]
@@ -676,9 +882,9 @@ paths:
         required: true
         content:
           application/json:
-            schema: { $ref: '#/components/schemas/MergeWishlistRequest' }
+            schema: { $ref: "#/components/schemas/MergeWishlistRequest" }
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
@@ -687,6 +893,5 @@ paths:
                 properties:
                   wishlist:
                     type: array
-                    items: { $ref: '#/components/schemas/WishlistItem' }
-        '401': { description: Unauthorized }
-
+                    items: { $ref: "#/components/schemas/WishlistItem" }
+        "401": { description: Unauthorized }

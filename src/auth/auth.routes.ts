@@ -13,6 +13,6 @@ export class AuthRouter {
         this.router.post('/logout',   this.authController.logout);
         this.router.post('/refresh',  this.authController.refresh);
 
-        this.router.patch('/change-role/:userId/:role', requireAuth, requireRole('admin'), this.authController.changeRole);
+        this.router.patch('/change-role/:userEmail/:role', requireAuth, requireRole('admin'), this.authController.changeRole);
     }
 }

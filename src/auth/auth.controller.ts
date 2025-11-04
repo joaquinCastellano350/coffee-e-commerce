@@ -79,8 +79,8 @@ export class AuthController {
 
     async changeRole(req: Request, res: Response, next: NextFunction) {
         try {
-            const { userId, role } = req.params;
-            const updatedUser = await this.userService.changeUserRole(userId, role);
+            const { userEmail, role } = req.params;
+            const updatedUser = await this.userService.changeUserRole(userEmail, role);
             res.json({ email: updatedUser.email, role: updatedUser.role });
         } catch (error) {
             next(error);

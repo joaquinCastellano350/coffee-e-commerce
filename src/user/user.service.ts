@@ -33,12 +33,12 @@ export class UserService {
     return this.toDTO(user);
   }
 
-  async changeUserRole(userId: string, role: string): Promise<UserResponseDTO> {
+  async changeUserRole(userEmail: string, role: string): Promise<UserResponseDTO> {
     if (!['user', 'admin'].includes(role)) {
       throw new AppError('Invalid role specified', 400);
     }
     
-    const user = await this.repo.findById(userId);
+    const user = await this.repo.findByEmail(userEmail);
     if (!user) {
       throw new AppError('User not found', 404);
     }

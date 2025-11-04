@@ -6,6 +6,7 @@ export interface IForm extends Document {
   message: string;
   email: string;
   phone: string;
+  interestedProduct?: string;
 }
 
 const formSchema = new Schema<IForm>(
@@ -15,6 +16,7 @@ const formSchema = new Schema<IForm>(
     message: { type: String, required: true, lowercase: true },
     email: { type: String, required: false },
     phone: { type: String, required: false },
+    interestedProduct: { type: Schema.Types.ObjectId, ref: 'Product', required: false },
   },
   { timestamps: true },
 );
