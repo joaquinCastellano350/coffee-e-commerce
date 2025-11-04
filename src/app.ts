@@ -2,7 +2,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import swaggerUi from "swagger-ui-express";
 import YAML from "yamljs";
-
+import cors from "cors";
 
 import { ErrorRequestHandler } from "express";
 import { errorHandler } from "./middlewares/error.middleware.js";
@@ -38,6 +38,7 @@ import { FormRouter } from "./form/form.routes.js";
 
 import { connectDB } from "./config/mongoose.js";
 import { StorageService } from "./storage/storage.service.js";
+import { corsOptions } from "./config/cors.js";
 
 export class App {
   public readonly app;
@@ -81,7 +82,9 @@ export class App {
     wishlistController?: WishlistController;
     wishlistService?: WishlistService;
   } = {}) {
+    
     this.app = express();
+    this.app.use(cors(corsOptions));
     this.app.use(express.json());
     this.app.use(cookieParser());
     this.app.use(errorHandler as ErrorRequestHandler);
