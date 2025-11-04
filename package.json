@@ -23,7 +23,9 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.18.0",
     "mongoose": "^8.16.5",
+    "swagger-ui-express": "^5.0.1",
     "ts-node": "^10.9.2",
+    "yamljs": "^0.3.0",
     "zod": "^4.0.13"
   },
   "devDependencies": {
@@ -34,6 +36,8 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/mongoose": "^5.11.96",
     "@types/node": "^24.1.0",
+    "@types/swagger-ui-express": "^4.1.8",
+    "@types/yamljs": "^0.2.34",
     "eslint": "^9.38.0",
     "jiti": "^2.6.1",
     "prettier": "^3.6.2",

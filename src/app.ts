@@ -1,5 +1,8 @@
 import express from "express";
 import cookieParser from "cookie-parser";
+import swaggerUi from "swagger-ui-express";
+import YAML from "yamljs";
+
 
 import { ErrorRequestHandler } from "express";
 import { errorHandler } from "./middlewares/error.middleware.js";
@@ -80,6 +83,12 @@ export class App {
     this.app.use(cookieParser());
     this.app.use(errorHandler as ErrorRequestHandler);
 
+    const swaggerDocument = YAML.load("docs/openapi.yaml");
+    this.app.use(
+      "/api-docs",
+      swaggerUi.serve,
+      swaggerUi.setup(swaggerDocument),
+    );
 
     const userRepo = userRepository || new MongoUserRepository();
     const userServ = userService || new UserService(userRepo);
