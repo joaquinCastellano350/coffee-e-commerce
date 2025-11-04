@@ -6,6 +6,7 @@ import {
   updateProductSchema,
 } from "./product.validation.js";
 import { requireAuth , requireRole } from "./../auth/auth.middleware.js";
+import { upload } from "../config/multer.js";
 export class ProductRouter {
   public readonly router = Router();
   constructor(productController: ProductController) {
@@ -15,11 +16,13 @@ export class ProductRouter {
     this.router.get("/", productController.getAllProducts);
     this.router.post(
       "/",
+      upload.single('image'),
       validate(createProductSchema),
       productController.createProduct,
     );
     this.router.put(
       "/:id",
+      upload.single('image'),
       validate(updateProductSchema),
       productController.updateProduct,
     );
