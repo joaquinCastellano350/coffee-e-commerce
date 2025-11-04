@@ -7,7 +7,6 @@
 # @name createCategory
 POST http://localhost:3000/api/categories
 Content-Type: application/json
-Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDU1NzFjYTJlZWZkNGY2OTM2ZDhkYiIsImVtYWlsIjoiam9hcXVpbkBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MTk1ODgzNywiZXhwIjoxNzYxOTU5NzM3fQ.VA5_GWnvKKs5D_zUz_mx-3GMLi7CfrvlocQKNbtlvzc
 
 {
     "name": "caffe",
@@ -20,7 +19,6 @@ Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDU1NzFjYTJ
 # @name createSubcategory
 POST http://localhost:3000/api/categories/
 Content-Type: application/json
-Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDU1NzFjYTJlZWZkNGY2OTM2ZDhkYiIsImVtYWlsIjoiam9hcXVpbkBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MTk1ODgzNywiZXhwIjoxNzYxOTU5NzM3fQ.VA5_GWnvKKs5D_zUz_mx-3GMLi7CfrvlocQKNbtlvzc
 
 {
     "name": "aaa",
@@ -35,13 +33,11 @@ GET http://localhost:3000/api/categories
 
 ### Obtener Categoría por slug
 # Muestra la categoría asociada al slug y sus categorías padre.
-GET http://localhost:3000/api/categories/caffe
-Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDU1NzFjYTJlZWZkNGY2OTM2ZDhkYiIsImVtYWlsIjoiam9hcXVpbkBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MTk1ODgzNywiZXhwIjoxNzYxOTU5NzM3fQ.VA5_GWnvKKs5D_zUz_mx-3GMLi7CfrvlocQKNbtlvzc
+GET http://localhost:3000/api/categories/{{categorySlug}}
 
 ### Actualizar Categoría
 PUT http://localhost:3000/api/categories/{{categoryId}}
 Content-Type: application/json
-Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDU1NzFjYTJlZWZkNGY2OTM2ZDhkYiIsImVtYWlsIjoiam9hcXVpbkBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MTk1ODgzNywiZXhwIjoxNzYxOTU5NzM3fQ.VA5_GWnvKKs5D_zUz_mx-3GMLi7CfrvlocQKNbtlvzc
 
 {
     "name": "cafffffe-updated",
@@ -50,4 +46,3 @@ Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDU1NzFjYTJ
 
 ### Eliminar Categoría
 DELETE http://localhost:3000/api/categories/{{categoryId}}
-Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDU1NzFjYTJlZWZkNGY2OTM2ZDhkYiIsImVtYWlsIjoiam9hcXVpbkBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MTk1ODgzNywiZXhwIjoxNzYxOTU5NzM3fQ.VA5_GWnvKKs5D_zUz_mx-3GMLi7CfrvlocQKNbtlvzc

@@ -2,12 +2,13 @@ import { Router } from "express";
 import { FormController } from "./form.controller.js";
 import { validate } from "../middlewares/validation.middleware.js";
 import { createformSchema, updateformSchema } from "./form.validation.js";
-import { requireAuth , requireRole } from "./../auth/auth.middleware.js";
 
 export class FormRouter {
   public readonly router = Router();
 
   constructor(formController: FormController) {
+    this.router.get("/", formController.getAllForms);
+    this.router.get("/:id", formController.getFormById);
     this.router.post(
       "/",
       validate(createformSchema),
@@ -18,10 +19,6 @@ export class FormRouter {
       validate(updateformSchema),
       formController.updateForm,
     );
-
-    this.router.use(requireAuth , requireRole("admin"));
-    this.router.get("/:id", formController.getFormById);
-    this.router.get("/", formController.getAllForms);
     this.router.delete("/:id", formController.deleteForm);
   }
 }

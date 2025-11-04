@@ -1,6 +1,5 @@
-import { Router } from "express";
 import { CategoryController } from "./category.controller.js";
-import { requireAuth , requireRole } from "./../auth/auth.middleware.js";
+import { Router } from "express";
 import {
   createCategorySchema,
   updateCategorySchema,
@@ -13,8 +12,6 @@ export class CategoryRouter {
   constructor(categoryController: CategoryController) {
     this.router.get("/", categoryController.getAllCategories);
     this.router.get("/:slug", categoryController.getCategoryBySlug);
-
-    this.router.use(requireAuth, requireRole("admin"));
     this.router.post(
       "/",
       validate(createCategorySchema),

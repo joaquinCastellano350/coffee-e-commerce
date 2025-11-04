@@ -19,13 +19,9 @@ Content-Type: application/json
 
 ### Obtener todos los formularios
 GET http://localhost:3000/api/forms
-Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDU1NzFjYTJlZWZkNGY2OTM2ZDhkYiIsImVtYWlsIjoiam9hcXVpbkBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MTk1ODgzNywiZXhwIjoxNzYxOTU5NzM3fQ.VA5_GWnvKKs5D_zUz_mx-3GMLi7CfrvlocQKNbtlvzc
-
 
 ### Obtener formulario por ID
 GET http://localhost:3000/api/forms/{{formId}}
-Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDU1NzFjYTJlZWZkNGY2OTM2ZDhkYiIsImVtYWlsIjoiam9hcXVpbkBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MTk1ODgzNywiZXhwIjoxNzYxOTU5NzM3fQ.VA5_GWnvKKs5D_zUz_mx-3GMLi7CfrvlocQKNbtlvzc
-
 
 
 ### Actualizar formulario
@@ -41,5 +37,3 @@ Content-Type: application/json
 
 ### Eliminar formulario
 DELETE http://localhost:3000/api/forms/{{formId}}
-Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDU1NzFjYTJlZWZkNGY2OTM2ZDhkYiIsImVtYWlsIjoiam9hcXVpbkBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MTk1ODgzNywiZXhwIjoxNzYxOTU5NzM3fQ.VA5_GWnvKKs5D_zUz_mx-3GMLi7CfrvlocQKNbtlvzc
-

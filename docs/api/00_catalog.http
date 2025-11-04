@@ -9,15 +9,15 @@
 # @name createCatalog
 POST http://localhost:3000/api/catalogs
 Content-Type: application/json
-Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDZjM2QwMDVjN2ViOGE4MmEzMDVmOSIsImVtYWlsIjoiam9hcXVpbkBhZG1pbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NjIwNTEwODUsImV4cCI6MTc2MjA1MTk4NX0.KDGHoV4xsnbUGWTrUu8ZKPFLQkIzoc6h_Vf5LKb6E5k
 
 {
-    "name": "cancha",
+    "name": "default catalog",
     "description": "Descripción del nuevo catálogo",
     "visible": false,
     "startedAt": "2025-01-01T00:00:00Z",
     "endedAt": "2025-12-31T23:59:59Z"
 }
+
 ###
 @catalogId = {{createCatalog.response.body._id}}
 
@@ -25,13 +25,12 @@ Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDZjM2QwMDV
 GET http://localhost:3000/api/catalogs
 
 ### Obtener Catálogo por ID
-GET http://localhost:3000/api/catalogs/id/6905590ca2eefd4f6936d8ff
+GET http://localhost:3000/api/catalogs/id/{{catalogId}}
 
 
 ### Actualizar Catálogo
-PUT http://localhost:3000/api/catalogs/id/690557c8a2eefd4f6936d8e0
+PUT http://localhost:3000/api/catalogs/id/{{catalogId}}
 Content-Type: application/json
-Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDU1NzFjYTJlZWZkNGY2OTM2ZDhkYiIsImVtYWlsIjoiam9hcXVpbkBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MTk1NzcyMywiZXhwIjoxNzYxOTU4NjIzfQ.EKhyXzmMvZalOegixit2k84pjJkcHgA3WCMn2c3OUnI
 
 {
     "name": "default-catalog-updated",
@@ -42,27 +41,22 @@ Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDU1NzFjYTJ
 }
 
 ### Eliminar Catálogo
-DELETE http://localhost:3000/api/catalogs/id/690557c8a2eefd4f6936d8e0
-Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDU1NzFjYTJlZWZkNGY2OTM2ZDhkYiIsImVtYWlsIjoiam9hcXVpbkBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MTk1NzcyMywiZXhwIjoxNzYxOTU4NjIzfQ.EKhyXzmMvZalOegixit2k84pjJkcHgA3WCMn2c3OUnI
+DELETE http://localhost:3000/api/catalogs/id/{{catalogId}}
 
 ### Desactivar catálogo
-PATCH http://localhost:3000/api/catalogs/id/6905590ca2eefd4f6936d8ff/disable
-Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDU1NzFjYTJlZWZkNGY2OTM2ZDhkYiIsImVtYWlsIjoiam9hcXVpbkBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MTk1NzcyMywiZXhwIjoxNzYxOTU4NjIzfQ.EKhyXzmMvZalOegixit2k84pjJkcHgA3WCMn2c3OUnI
+PATCH http://localhost:3000/api/catalogs/id/{{catalogId}}/disable
 
 ### Activar catálogo
-PATCH http://localhost:3000/api/catalogs/id/6905590ca2eefd4f6936d8ff/enable
-Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDU1NzFjYTJlZWZkNGY2OTM2ZDhkYiIsImVtYWlsIjoiam9hcXVpbkBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MjAxNDQ4MSwiZXhwIjoxNzYyMDE1MzgxfQ.U3wbCqoRtlqvIDyINXiM06swUUDh09uxTaQr8GzVu8I
+PATCH http://localhost:3000/api/catalogs/id/{{catalogId}}/enable
+
 
 ### Obtener y filtrar los productos de un catálogo
 # Para obtener respuesta distinta de undefined deben haber productos cargados a ese catálogo.
+# El endpoint /catalogs/catalog busca automáticamente el catálogo activo. Si se quieren filtrar catálogos inactivos se usa el slug del catálogo.
 
 # Obtener productos del único catálogo activo 
 # Es conveniente ejecutar este endpoint después de haber creado productos en el catálogo (02_product.http).
 GET http://localhost:3000/api/catalogs/slug/catalog/products?tag=arabica
-
-
-### Obtener productos del catalogo activo
-GET http://localhost:3000/api/catalogs/products
 
 #Filtros usables como query params:
     # "tag": <tag del producto>
