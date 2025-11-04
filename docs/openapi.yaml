@@ -128,12 +128,12 @@ components:
         price: { type: number, minimum: 0 }
         stock: { type: number, minimum: 0, default: 0 }
         brand: { type: string, nullable: true }
-        category_id: { type: string, nullable: true }
-        catalog_id: { type: string, nullable: true }
+        category_id: { type: string }
+        catalog_id: { type: string }
         tags:
           type: array
           items: { type: string }
-      required: [name, price, stock]
+      required: [name, price, stock, category_id, catalog_id]
     UpdateProductRequest:
       allOf:
         - $ref: "#/components/schemas/CreateProductRequest"
@@ -154,6 +154,7 @@ components:
         message: { type: string, nullable: true }
         phone: { type: string }
         mail: { type: string, format: email, nullable: true }
+        interestedProduct: { type: string, nullable: true }
       required: [name, phone]
     UpdateFormRequest:
       allOf:
@@ -302,6 +303,14 @@ paths:
       requestBody:
         required: true
         content:
+          multipart/form-data:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/CreateProductRequest"
+              properties:
+                image:
+                  type: string
+                  format: binary
           application/json:
             schema: { $ref: "#/components/schemas/CreateProductRequest" }
       responses:
@@ -349,6 +358,14 @@ paths:
       requestBody:
         required: true
         content:
+          multipart/form-data:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/UpdateProductRequest"
+              properties:
+                image:
+                  type: string
+                  format: binary
           application/json:
             schema: { $ref: "#/components/schemas/UpdateProductRequest" }
       responses:

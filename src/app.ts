@@ -37,6 +37,7 @@ import { FormService } from "./form/form.service.js";
 import { FormRouter } from "./form/form.routes.js";
 
 import { connectDB } from "./config/mongoose.js";
+import { StorageService } from "./storage/storage.service.js";
 
 export class App {
   public readonly app;
@@ -45,6 +46,7 @@ export class App {
     productRepository,
     productController,
     productService,
+    storageService,
     categoryRepository,
     categoryController,
     categoryService,
@@ -63,6 +65,7 @@ export class App {
     productRepository?: MongoProductRepository;
     productController?: ProductController;
     productService?: ProductService;
+    storageService?: StorageService;
     categoryRepository?: MongoCategoryRepository;
     categoryController?: CategoryController;
     categoryService?: CategoryService;
@@ -95,9 +98,11 @@ export class App {
     const authCont = authController || new AuthController(userServ);
     const authRouter = new AuthRouter(authCont);
 
+    const storageServ = storageService || new StorageService();
+
     const productRepo = productRepository || new MongoProductRepository();
     const productServ = productService || new ProductService(productRepo);
-    const productCont = productController || new ProductController(productServ);
+    const productCont = productController || new ProductController(productServ, storageServ);
     const productRouter = new ProductRouter(productCont);
 
     const wishlistServ = wishlistService || new WishlistService(userRepo, productRepo);
@@ -120,7 +125,12 @@ export class App {
     const formServ = formService || new FormService(formRepo);
     const formCont = formController || new FormController(formServ);
     const formRouter = new FormRouter(formCont);
-    
+
+    this.app.use('/uploads', express.static(StorageService.uploadsDir, {
+      immutable: true,
+      maxAge: '30d',
+    }));
+
     this.app.use("/auth", authRouter.router);
     this.app.use("/api/wishlist", wishlistRouter.router);
     this.app.use("/api/products", productRouter.router);
@@ -129,9 +139,12 @@ export class App {
     this.app.use("/api/forms", formRouter.router);
   }
   static getDefaults() {
+
+    const storageService = new StorageService();
+
     const productRepository = new MongoProductRepository();
     const productService = new ProductService(productRepository);
-    const productController = new ProductController(productService);
+    const productController = new ProductController(productService, storageService);
 
     const categoryRepository = new MongoCategoryRepository();
     const categoryService = new CategoryService(categoryRepository);
@@ -161,6 +174,8 @@ export class App {
       formRepository,
       formController,
       formService,
+      storageService,
+      
     };
   }
 
