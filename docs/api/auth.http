@@ -1,0 +1,33 @@
+
+### Register — crear usuario
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+  "email": "joaquin@prueba.com",
+  "password": "joaquin777"
+}
+
+### Login — obtener tokens / sesión
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "email": "joaquin@prueba.com",
+  "password": "joaquin777"
+}
+
+### Logout — invalidar refresh token (ejemplo con cookie)
+POST http://localhost:3000/auth/logout
+Content-Type: application/json
+### Cookie: refreshToken
+
+### Refresh — renovar access token
+
+POST http://localhost:3000/auth/refresh
+Content-Type: application/json
+Cookie: refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDU1NzFjYTJlZWZkNGY2OTM2ZDhkYiIsImVtYWlsIjoiam9hcXVpbkBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImp0aSI6IjUyZTUzMzcyLTQ3OTYtNDFiNC1hNjM4LTkwZGUzODRkMDg5ZCIsImlhdCI6MTc2MTk1NzY3NSwiZXhwIjoxNzYyNTYyNDc1fQ.0JJqhkEzup_VcWutGCsaS6XVc90ALsmrk72Tk-7yQeQ
+
+### Change Role — cambiar rol de usuario (ejemplo con token Bearer)
+PATCH http://localhost:3000/auth/change-role/6906c3d005c7eb8a82a305f9/admin
+Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDZjMGY4YzQ4YzgzMWJhZWNkNzczMCIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzYyMDUwOTQ4LCJleHAiOjE3NjIwNTE4NDh9.ZgNfxLQy3Iy6t3QjfsDLoVWneFqIVinj_iPX6lPEFLQ
