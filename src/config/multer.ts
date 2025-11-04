@@ -1,9 +1,10 @@
 import multer from 'multer';
 import {randomUUID} from 'node:crypto';
 import path from 'node:path';
+import { StorageService } from '../storage/storage.service.js';
 
 const storage = multer.diskStorage({
-    destination: (_req, _file, cb) => cb(null, 'uploads'),
+    destination: (_req, _file, cb) => cb(null, StorageService.uploadsDir),
     filename: (_req, file, cb) => {
         const ext = path.extname(file.originalname);
         cb(null, `${randomUUID()}${ext || '.bin'}`);

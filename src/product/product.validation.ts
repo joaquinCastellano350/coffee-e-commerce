@@ -16,7 +16,7 @@ export const createProductSchema = z.object({
   brand: z.string().min(2).max(50).optional(),
   category_id: z.string().regex(/^[a-f\d]{24}$/),
   catalog_id: z.string().regex(/^[a-f\d]{24}$/i),
-  tags: z.array(z.string()).optional(),
+  tags: z.string().optional(),
 });
 
 export const updateProductSchema = z.object({
@@ -25,7 +25,7 @@ export const updateProductSchema = z.object({
   price: z.coerce.number().min(0).optional(),
   stock: z.coerce.number().min(0).default(0).optional(),
   brand: z.string().min(2).max(50).optional(),
-  category_id: z.string().regex(/^[a-f\d]{24}$/i),
-  catalog_id: z.string().regex(/^[a-f\d]{24}$/i),
-  tags: z.array(z.string()).optional(),
+  category_id: z.string().regex(/^[a-f\d]{24}$/i).optional(),
+  catalog_id: z.string().regex(/^[a-f\d]{24}$/i).optional(),
+  tags: z.string().optional(),
 });

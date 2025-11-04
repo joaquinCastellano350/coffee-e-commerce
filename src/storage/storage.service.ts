@@ -4,13 +4,13 @@ import sharp from "sharp";
 import { AppError } from "../utils/AppError.js";
 
 export class StorageService {
-    private uploadsDir = path.join(process.cwd(), 'uploads');
+    static uploadsDir = process.env.UPLOADS_DIR || path.join(process.cwd(), 'uploads');
 
     async processImage(file: Express.Multer.File): Promise<string> {
         try {
-            const src = path.join(this.uploadsDir, file.filename);
+            const src = path.join(StorageService.uploadsDir, file.filename);
             const webpFilename = file.filename.replace(/\.\w+$/, '') + '.webp';
-            const dest = path.join(this.uploadsDir, webpFilename);
+            const dest = path.join(StorageService.uploadsDir, webpFilename);
             await sharp(src).resize(1280).webp({ quality: 80 }).toFile(dest);
             await fs.unlink(src);
             return `/uploads/${webpFilename}`;

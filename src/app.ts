@@ -37,7 +37,6 @@ import { FormService } from "./form/form.service.js";
 import { FormRouter } from "./form/form.routes.js";
 
 import { connectDB } from "./config/mongoose.js";
-import path from "node:path";
 import { StorageService } from "./storage/storage.service.js";
 
 export class App {
@@ -126,8 +125,8 @@ export class App {
     const formServ = formService || new FormService(formRepo);
     const formCont = formController || new FormController(formServ);
     const formRouter = new FormRouter(formCont);
-    
-    this.app.use('/uploads', express.static(path.join(process.cwd(), 'uploads'), {
+
+    this.app.use('/uploads', express.static(StorageService.uploadsDir, {
       immutable: true,
       maxAge: '30d',
     }));
