@@ -9,6 +9,10 @@ import { MongoUserRepository } from "./user/user.repository.js";
 import { UserService } from "./user/user.service.js";
 import { AuthRouter } from "./auth/auth.routes.js";
 
+import { WishlistController } from "./wishlist/wishlist.controller.js";
+import { WishlistService } from "./wishlist/wishlist.service.js";
+import { WishlistRouter } from "./wishlist/wishlist.routes.js";
+
 import { ProductController } from "./product/product.controller.js";
 import { MongoProductRepository } from "./product/product.repository.js";
 import { ProductService } from "./product/product.service.js";
@@ -50,6 +54,8 @@ export class App {
     userRepository,
     authController,
     userService,
+    wishlistController,
+    wishlistService
   }: {
     productRepository?: MongoProductRepository;
     productController?: ProductController;
@@ -66,6 +72,8 @@ export class App {
     userRepository?: MongoUserRepository;
     authController?: AuthController;
     userService?: UserService;
+    wishlistController?: WishlistController;
+    wishlistService?: WishlistService;
   } = {}) {
     this.app = express();
     this.app.use(express.json());
@@ -82,6 +90,10 @@ export class App {
     const productServ = productService || new ProductService(productRepo);
     const productCont = productController || new ProductController(productServ);
     const productRouter = new ProductRouter(productCont);
+
+    const wishlistServ = wishlistService || new WishlistService(userRepo, productRepo);
+    const wishlistCont = wishlistController || new WishlistController(wishlistServ);
+    const wishlistRouter = new WishlistRouter(wishlistCont);
     
     const categoryRepo = categoryRepository || new MongoCategoryRepository();
     const categoryServ = categoryService || new CategoryService(categoryRepo);
@@ -101,6 +113,7 @@ export class App {
     const formRouter = new FormRouter(formCont);
     
     this.app.use("/auth", authRouter.router);
+    this.app.use("/api/wishlist", wishlistRouter.router);
     this.app.use("/api/products", productRouter.router);
     this.app.use("/api/categories", categoryRouter.router);
     this.app.use("/api/catalogs", catalogRouter.router);

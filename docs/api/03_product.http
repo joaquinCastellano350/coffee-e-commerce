@@ -6,14 +6,14 @@
 ### Obtener id de la categoría (necesario para crear el producto)
 # @name getCategory
 GET http://localhost:3000/api/categories/aaa
-Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDU1NzFjYTJlZWZkNGY2OTM2ZDhkYiIsImVtYWlsIjoiam9hcXVpbkBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MTk1ODgzNywiZXhwIjoxNzYxOTU5NzM3fQ.VA5_GWnvKKs5D_zUz_mx-3GMLi7CfrvlocQKNbtlvzc
-
+Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDZjMGY4YzQ4YzgzMWJhZWNkNzczMCIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzYyMTg3MjY1LCJleHAiOjE3NjIxODgxNjV9.A8Yk7veq2dy-avUlQyP_5aF7QLHD7HL13xG3xedie3U
 ###
 @categoryId = {{getCategory.response.body.$.[0]._id}}
 
 ### Obtener id del catálogo (necesario para crear el producto)
 # @name getCatalog
 GET http://localhost:3000/api/catalogs/slug/default-catalog
+Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDZjMGY4YzQ4YzgzMWJhZWNkNzczMCIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzYyMTg3MjY1LCJleHAiOjE3NjIxODgxNjV9.A8Yk7veq2dy-avUlQyP_5aF7QLHD7HL13xG3xedie3U
 
 ###
 @catalogId = {{getCatalog.response.body._id}}
@@ -22,12 +22,12 @@ GET http://localhost:3000/api/catalogs/slug/default-catalog
 # @name createProduct
 POST http://localhost:3000/api/products
 Content-Type: application/json
-Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDU1NzFjYTJlZWZkNGY2OTM2ZDhkYiIsImVtYWlsIjoiam9hcXVpbkBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MTk1ODgzNywiZXhwIjoxNzYxOTU5NzM3fQ.VA5_GWnvKKs5D_zUz_mx-3GMLi7CfrvlocQKNbtlvzc
+Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDZjMGY4YzQ4YzgzMWJhZWNkNzczMCIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzYyMTg3MjY1LCJleHAiOjE3NjIxODgxNjV9.A8Yk7veq2dy-avUlQyP_5aF7QLHD7HL13xG3xedie3U
 
 
 {
-    "name": "Cafffffé Arábica",
-    "description": "Café Arábica de alta calidad",
+    "name": "corolla",
+    "description": "auto blanco",
     "price": 10.99,
     "stock": 100,
     "brand": "Nescafe",
@@ -40,9 +40,10 @@ Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDU1NzFjYTJ
 @productId = {{createProduct.response.body._id}}
 ### Listar Productos
 GET http://localhost:3000/api/products
+Cookie: accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDZjMGY4YzQ4YzgzMWJhZWNkNzczMCIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzYyMTg3MjY1LCJleHAiOjE3NjIxODgxNjV9.A8Yk7veq2dy-avUlQyP_5aF7QLHD7HL13xG3xedie3U
 
 ### Obtener Producto por ID
-GET http://localhost:3000/api/products/{{productId}}
+GET http://localhost:3000/api/products/6908d84a5f1052b193bf0260
 
 ### Actualizar Producto
 PUT http://localhost:3000/api/products/{{productId}}
