@@ -62,7 +62,7 @@ GET http://localhost:3000/api/catalogs/slug/catalog/products?tag=arabica
 
 
 ### Obtener productos del catalogo activo
-GET http://localhost:3000/api/catalogs/products?name=corolla
+GET http://localhost:3000/api/catalogs/products
 
 #Filtros usables como query params:
     # "tag": <tag del producto>

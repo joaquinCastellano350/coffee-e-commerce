@@ -3,7 +3,7 @@ import { ProductRepository } from "./product.repository.interface.js";
 
 export class MongoProductRepository implements ProductRepository {
   async findByFilters(filters: Record<string, string | number>) {
-    const products = await ProductModel.find(filters);
+    const products = await ProductModel.find(filters).populate('category_id', 'name -_id').select('_id name description price stock brand imageURL category_id tags');
     return products;
   }
   async findAll(): Promise<IProduct[]> {
