@@ -2,7 +2,6 @@ import { MongoCatalogRepository } from "./catalog.repository.js";
 import { ICatalog } from "./catalog.model.js";
 import { AppError } from "../utils/AppError.js";
 import { MongoProductRepository } from "../product/product.repository.js";
-import { IProduct } from "../product/product.model.js";
 
 export class CatalogService {
   private catalogRepository: MongoCatalogRepository;
@@ -23,7 +22,7 @@ export class CatalogService {
     }
     return catalog;
   }
-  async getCatalogProducts(slug: string, filters: Record<string, string | number>): Promise<IProduct[]> {
+  async getCatalogProducts(slug: string, filters: Record<string, string | number>) {
     let catalog;
     if (slug === "catalog") {
       catalog = await this.catalogRepository.findActive();
@@ -34,8 +33,20 @@ export class CatalogService {
       throw new AppError("There are no visible catalogs", 404);
     }
     filters.catalog_id = String(catalog._id);
-    const products = await this.productRepository.findByFilters(filters);
-    return products;
+
+    const page = Number(filters.page);
+    const skip = (Number(filters.page) - 1) * Number(filters.limit);
+    const limit = Number(filters.limit);
+    delete filters.page;
+    delete filters.limit;
+
+    const [products, total] = await Promise.all( [this.productRepository.findByFilters(skip , limit , filters), this.productRepository.count(filters)] );
+    return {
+      products,
+      total,
+      page,
+      pages: Math.ceil(total / limit),
+    };
   }
   async createCatalog(data: ICatalog): Promise<ICatalog> {
     const catalog = await this.catalogRepository.add(data);

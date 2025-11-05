@@ -25,11 +25,11 @@ export class CatalogController {
   ) {
     try {
       const slug = req.params.slug || 'catalog';
-      const products = await this.catalogService.getCatalogProducts(
+      const result = await this.catalogService.getCatalogProducts(
         slug,
         req.filters ?? {},
       );
-      res.status(200).json(products);
+      res.status(200).json(result);
     } catch (error) {
       next(error);
     }

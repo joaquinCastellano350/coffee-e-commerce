@@ -1,10 +1,20 @@
+
 import { IProduct, ProductModel } from "./product.model.js";
 import { ProductRepository } from "./product.repository.interface.js";
 
 export class MongoProductRepository implements ProductRepository {
-  async findByFilters(filters: Record<string, string | number>) {
-    const products = await ProductModel.find(filters).populate('category_id', 'name -_id').select('_id name description price stock brand imageURL category_id tags');
+  async findByFilters(skip: number, limit: number, filters: Record<string, string | number>) {
+    const products = await ProductModel.find(filters)
+    .populate('category_id', 'name -_id')
+    .select('_id name description price stock brand imageURL category_id tags')
+    .skip(skip)
+    .limit(limit);
+
     return products;
+  }
+  async count(filters: Record<string, string | number>) {
+    const count = await ProductModel.countDocuments(filters);
+    return count;
   }
   async findAll(): Promise<IProduct[]> {
     const products = await ProductModel.find();
