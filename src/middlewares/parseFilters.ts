@@ -12,6 +12,7 @@ function parseFilters(req: FilteredRequest, res: Response, next: NextFunction) {
   if (category) filters.category_slug = String(category);
   if (name) filters.name = String(name).trim();
 
+
   filters.page = 1;
   filters.limit = 10;
 

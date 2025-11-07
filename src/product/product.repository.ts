@@ -3,7 +3,14 @@ import { IProduct, ProductModel } from "./product.model.js";
 import { ProductRepository } from "./product.repository.interface.js";
 
 export class MongoProductRepository implements ProductRepository {
-  async findByFilters(skip: number, limit: number, filters: Record<string, string | number>) {
+  async findByFilters(skip: number, limit: number, filters: Record<string, string | number | { $regex: RegExp }>) {
+
+    if (filters.name) {
+      const regex = new RegExp(filters.name as string, 'i');
+      filters.name = { $regex: regex };
+    }
+
+
     const products = await ProductModel.find(filters)
     .populate('category_id', 'name -_id')
     .select('_id name description price stock brand imageURL category_id tags')

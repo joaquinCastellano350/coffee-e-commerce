@@ -40,6 +40,7 @@ export class CatalogService {
     delete filters.page;
     delete filters.limit;
 
+
     const [products, total] = await Promise.all( [this.productRepository.findByFilters(skip , limit , filters), this.productRepository.count(filters)] );
     return {
       products,
