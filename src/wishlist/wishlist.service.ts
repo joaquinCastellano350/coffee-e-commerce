@@ -9,6 +9,15 @@ export class WishlistService {
         this.productRepository = productRepository;
     }
 
+    async getLocalWishlist(productsIds: string[]) {
+        try {
+            const products = await this.productRepository.findMany(productsIds);
+            return products;
+        } catch (error) {
+            throw new AppError('Error fetching local wishlist', 500);
+        }
+    }
+
     async getAll(userId: string) {
         try {
             const wishlist = await this.userRepository.getWishlist(userId);

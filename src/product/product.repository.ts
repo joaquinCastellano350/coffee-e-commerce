@@ -32,7 +32,7 @@ export class MongoProductRepository implements ProductRepository {
     return product;
   }
   async findMany(ids: string[]): Promise<IProduct[]> {
-    const products = await ProductModel.find({ _id: { $in: ids } });
+    const products = await ProductModel.find({ _id: { $in: ids } }).populate('category_id', 'name -_id');
     return products;
   }
   async add(data: Partial<IProduct>): Promise<IProduct | null> {

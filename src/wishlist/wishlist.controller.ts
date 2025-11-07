@@ -9,6 +9,19 @@ export class WishlistController {
     this.addToWishlist = this.addToWishlist.bind(this);
     this.removeFromWishlist = this.removeFromWishlist.bind(this);
     this.mergeWishlist = this.mergeWishlist.bind(this);
+    this.getLocalWishlist = this.getLocalWishlist.bind(this);
+  }
+
+  async getLocalWishlist(req: Request, res: Response, next: NextFunction) {
+    try {
+
+        const productsIds = req.query.ids as string;
+        const productsIdsArray = productsIds.split(',');
+        const wishlist = await this.wishlistService.getLocalWishlist(productsIdsArray);
+        res.status(200).json(wishlist);
+    } catch (error) {
+      next(error);
+    }
   }
 
   async getWishlist(req: Request, res: Response, next: NextFunction) {

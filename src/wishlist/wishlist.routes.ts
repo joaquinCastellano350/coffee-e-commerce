@@ -8,6 +8,7 @@ export class WishlistRouter {
   public readonly router = Router();
 
   constructor(wishlistController: WishlistController) {
+    this.router.get('/local', wishlistController.getLocalWishlist)
     this.router.use(requireAuth);
     this.router.get("/", wishlistController.getWishlist);
     this.router.post("/merge", validate(ProductsSchema), wishlistController.mergeWishlist);
