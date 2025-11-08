@@ -9,7 +9,7 @@ function parseFilters(req: FilteredRequest, res: Response, next: NextFunction) {
 
   const filters: Record<string, string | number> = {};
   if (brand) filters.brand = String(brand);
-  if (category) filters.category_slug = String(category);
+  if (category) filters.category_id = String(category);
   if (name) filters.name = String(name).trim();
 
 

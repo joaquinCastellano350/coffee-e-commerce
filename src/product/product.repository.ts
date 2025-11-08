@@ -24,7 +24,9 @@ export class MongoProductRepository implements ProductRepository {
     return count;
   }
   async findAll(): Promise<IProduct[]> {
-    const products = await ProductModel.find();
+    const products = await ProductModel.find()
+    .populate('category_id', 'name -_id')
+    .populate('catalog_id', 'name visible -_id');
     return products;
   }
   async findOne(id: string): Promise<IProduct | null> {
