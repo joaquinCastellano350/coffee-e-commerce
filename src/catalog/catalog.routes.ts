@@ -14,7 +14,7 @@ export class CatalogRouter {
 
   constructor(catalogController: CatalogController) {
     this.router.get('/products', parseFilters, catalogController.getCatalogProducts);
-    // this.router.use(requireAuth, requireRole("admin"));
+    this.router.use(requireAuth, requireRole("admin"));
     this.router.post(
       "/",
       validate(createCatalogSchema),

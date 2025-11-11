@@ -12,7 +12,7 @@ export class AuthRouter {
         this.router.post('/login',    validate(LoginSchema),    this.authController.login);
         this.router.post('/logout',   this.authController.logout);
         this.router.post('/refresh',  this.authController.refresh);
-
+        this.router.get('/me', requireAuth, this.authController.getMe);
         this.router.patch('/change-role/:userEmail/:role', requireAuth, requireRole('admin'), this.authController.changeRole);
     }
 }

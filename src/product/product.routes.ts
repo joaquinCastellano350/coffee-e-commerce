@@ -11,7 +11,7 @@ export class ProductRouter {
   public readonly router = Router();
   constructor(productController: ProductController) {
     this.router.get("/:id", productController.getProductById);
-    //this.router.use(requireAuth , requireRole("admin"));
+    this.router.use(requireAuth , requireRole("admin"));
     this.router.get("/", productController.getAllProducts);
     this.router.post(
       "/",

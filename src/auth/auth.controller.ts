@@ -2,7 +2,7 @@ import {Request, Response, NextFunction} from 'express';
 import crypto from 'node:crypto';
 import { LoginDTO, RegisterDTO } from '../user/user.dto.js';
 import { UserService } from '../user/user.service.js';
-import { signAccess, signRefresh, verifyRefresh } from './token.util.js';
+import { signAccess, signRefresh, verifyAccess, verifyRefresh } from './token.util.js';
 import { AppError } from '../utils/AppError.js';
 
 export class AuthController {
@@ -61,6 +61,19 @@ export class AuthController {
             res.cookie('accessToken', accessToken, { httpOnly: true, secure: true, sameSite: 'lax', maxAge: 15 * 60 * 1000 });
             res.cookie('refreshToken', newRefreshToken, { httpOnly: true, secure: true, sameSite: 'strict', maxAge: 7 * 24 * 60 * 60 * 1000 });
             res.json({ email: payload.email, message: 'Token refreshed successfully' });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async getMe(req: Request, res: Response, next: NextFunction) {
+        try {
+            const token = req.cookies?.accessToken;
+            if (!token) {
+                throw new AppError('Unauthorized', 401);
+            }
+            const payload = verifyAccess(token);
+            res.status(200).json({ id: payload.id, email: payload.email, role: payload.role });
         } catch (error) {
             next(error);
         }

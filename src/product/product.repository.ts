@@ -12,7 +12,7 @@ export class MongoProductRepository implements ProductRepository {
 
 
     const products = await ProductModel.find(filters)
-    .populate('category_id', 'name -_id')
+    .populate('category_id', 'name ')
     .select('_id name description price stock brand imageURL category_id tags')
     .skip(skip)
     .limit(limit);
@@ -25,16 +25,18 @@ export class MongoProductRepository implements ProductRepository {
   }
   async findAll(): Promise<IProduct[]> {
     const products = await ProductModel.find()
-    .populate('category_id', 'name -_id')
-    .populate('catalog_id', 'name visible -_id');
+    .populate('category_id', 'name ')
+    .populate('catalog_id', 'name visible ');
     return products;
   }
   async findOne(id: string): Promise<IProduct | null> {
-    const product = await ProductModel.findById(id).populate('category_id', 'name -_id');
+    const product = await ProductModel.findById(id)
+    .populate('category_id', 'name ')
+    .populate('catalog_id', 'name');
     return product;
   }
   async findMany(ids: string[]): Promise<IProduct[]> {
-    const products = await ProductModel.find({ _id: { $in: ids } }).populate('category_id', 'name -_id');
+    const products = await ProductModel.find({ _id: { $in: ids } }).populate('category_id', 'name ');
     return products;
   }
   async add(data: Partial<IProduct>): Promise<IProduct | null> {
