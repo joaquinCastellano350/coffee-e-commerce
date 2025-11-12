@@ -2,7 +2,10 @@ import { IForm, formModel } from "./form.model.js";
 import { FormRepository } from "./form.repository.interface.js";
 export class MongoFormRepository implements FormRepository {
   async findAll(): Promise<IForm[]> {
-    const form = await formModel.find();
+    const form = await formModel.find()
+    .sort({createdAt: -1})
+    .populate('interestedProduct', 'name')
+    .exec();
     return form;
   }
   async findOne(id: string): Promise<IForm | null> {
