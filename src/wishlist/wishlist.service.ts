@@ -61,7 +61,7 @@ export class WishlistService {
             const update = await this.userRepository.updateWishlist(userId, productsIds);
             return update
         } catch (error) {
-            throw new AppError('Error mamamam to wishlist', 500);
+            throw new AppError('Error merging withlist wishlist', 500);
         }
     }
 }
