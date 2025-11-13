@@ -2,4 +2,5 @@
 /dist
 /uploads/**
 !/uploads/.gitkeep
-!/uploads/assets/placeholder.png
+!/uploads/assets/
+!/uploads/assets/*
