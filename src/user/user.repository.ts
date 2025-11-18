@@ -2,7 +2,10 @@ import { IUser, UserModel } from "./user.model.js";
 import { UserRepository } from "./user.repository.interface.js";
 
 export class MongoUserRepository implements UserRepository {
-    
+  async findAll(filters: Record<string, unknown>) {
+    const users = await UserModel.find(filters).select("_id email role");
+    return users;
+  }
 
   async findById(id: string) {
     const user = await UserModel.findById(id);
@@ -16,22 +19,25 @@ export class MongoUserRepository implements UserRepository {
     return await UserModel.create(data);
   }
   async getWishlist(userId: string) {
-    const user = await UserModel.findById(userId)
+    const user = await UserModel.findById(userId);
     return user?.wishlist || [];
   }
   async updateWishlist(userId: string, wishlist: string[]) {
-      const result = await UserModel.findOneAndUpdate({_id: userId}, 
-        {$addToSet: {wishlist: {$each: wishlist}}},
-        {new: true},
-      ).select('wishlist')
-      return result;
-    
+    const result = await UserModel.findOneAndUpdate(
+      { _id: userId },
+      { $addToSet: { wishlist: { $each: wishlist } } },
+      { new: true }
+    ).select("wishlist");
+    return result;
   }
   async removeFromWishlist(userId: string, productId: string) {
-    await UserModel.updateOne({
-      _id: userId
-    }, {
-      $pull: { wishlist: productId }
-    });
+    await UserModel.updateOne(
+      {
+        _id: userId,
+      },
+      {
+        $pull: { wishlist: productId },
+      }
+    );
   }
 }

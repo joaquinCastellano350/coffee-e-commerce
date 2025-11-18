@@ -1,6 +1,6 @@
-import type { MongoUserRepository } from './user.repository.js';
-import type { LoginDTO, RegisterDTO, UserResponseDTO } from './user.dto.js';
-import { AppError } from '../utils/AppError.js';
+import type { MongoUserRepository } from "./user.repository.js";
+import type { LoginDTO, RegisterDTO, UserResponseDTO } from "./user.dto.js";
+import { AppError } from "../utils/AppError.js";
 
 export class UserService {
   private readonly repo: MongoUserRepository;
@@ -8,22 +8,38 @@ export class UserService {
     this.repo = repo;
   }
 
+  async getAll(email?: string, role?: "admin" | "user") {
+    const filters: Record<string, unknown> = {};
+    if (email) {
+      const regex = new RegExp(email, "i");
+      filters.email = { $regex: regex };
+    }
+    if (role) {
+      filters.role = role;
+    }
+    return await this.repo.findAll(filters);
+  }
+
   async register(dto: RegisterDTO): Promise<UserResponseDTO> {
     const existing = await this.repo.findByEmail(dto.email);
-    if (existing) throw new AppError('Email already in use', 409);
+    if (existing) throw new AppError("Email already in use", 409);
 
     const user = await this.repo.add({
       email: dto.email,
-      role: 'user',
-      passwordHash: 'pending'
+      role: "user",
+      passwordHash: "pending",
     });
 
     await user.setPassword(dto.password);
     await user.save();
 
-    return { id: user.id, email: user.email, role: user.role, createdAt: user.createdAt?.toISOString() };
+    return {
+      id: user.id,
+      email: user.email,
+      role: user.role,
+      createdAt: user.createdAt?.toISOString(),
+    };
   }
-
 
   async login(dto: LoginDTO): Promise<UserResponseDTO | null> {
     const user = await this.repo.findByEmail(dto.email);
@@ -33,22 +49,30 @@ export class UserService {
     return this.toDTO(user);
   }
 
-  async changeUserRole(userEmail: string, role: string): Promise<UserResponseDTO> {
-    if (!['user', 'admin'].includes(role)) {
-      throw new AppError('Invalid role specified', 400);
-    }
-    
-    const user = await this.repo.findByEmail(userEmail);
-    if (!user) {
-      throw new AppError('User not found', 404);
+  async changeUserRole(
+    userEmail: string,
+    role: string
+  ): Promise<UserResponseDTO> {
+    if (!["user", "admin"].includes(role)) {
+      throw new AppError("Invalid role specified", 400);
     }
 
-    user.role = 'admin' === role ? 'admin' : 'user';
+    const user = await this.repo.findByEmail(userEmail);
+    if (!user) {
+      throw new AppError("User not found", 404);
+    }
+
+    user.role = role as "admin" | "user";
     await user.save();
     return this.toDTO(user);
   }
 
   toDTO(user: any): UserResponseDTO {
-    return { id: user.id, email: user.email, role: user.role, createdAt: user.createdAt?.toISOString() };
+    return {
+      id: user.id,
+      email: user.email,
+      role: user.role,
+      createdAt: user.createdAt?.toISOString(),
+    };
   }
 }
