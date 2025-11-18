@@ -11,6 +11,7 @@ export class FormController {
     this.getAllForms = this.getAllForms.bind(this);
     this.getFormById = this.getFormById.bind(this);
     this.updateForm = this.updateForm.bind(this);
+    this.countLatests = this.countLatests.bind(this);
   }
 
   async getAllForms(req: Request, res: Response, next: NextFunction) {
@@ -21,7 +22,15 @@ export class FormController {
       next(error);
     }
   }
-
+  async countLatests(req: Request, res: Response, next: NextFunction) {
+    try {
+      const days = Number(req.query.id) || 7;
+      const total = await this.formService.countLatests(days);
+      res.status(200).json({ total });
+    } catch (error) {
+      next(error);
+    }
+  }
   async getFormById(req: Request, res: Response, next: NextFunction) {
     try {
       const form = await this.formService.getFormById(req.params.id);
@@ -44,7 +53,7 @@ export class FormController {
     try {
       const updatedForm = await this.formService.updateForm(
         req.params.id,
-        req.body,
+        req.body
       );
       res.status(200).json(updatedForm);
     } catch (error) {

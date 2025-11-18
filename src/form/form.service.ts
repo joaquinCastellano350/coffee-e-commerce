@@ -10,6 +10,14 @@ export class FormService {
     this.formRepository = formRepository;
   }
 
+  async countLatests(days: number) {
+    const date = new Date();
+    const gteDate = new Date(date.setDate(date.getDate() - days));
+
+    const total = await this.formRepository.countLatests(gteDate);
+    return total;
+  }
+
   async getAllForms() {
     const forms = await this.formRepository.findAll();
     if (forms.length === 0) {
