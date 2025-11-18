@@ -20,11 +20,6 @@ export class UserService {
     return await this.repo.findAll(filters);
   }
 
-  async getWishlists() {
-    const total = this.repo.countWishlsits();
-    return total;
-  }
-
   async register(dto: RegisterDTO): Promise<UserResponseDTO> {
     const existing = await this.repo.findByEmail(dto.email);
     if (existing) throw new AppError("Email already in use", 409);
@@ -72,6 +67,17 @@ export class UserService {
     return this.toDTO(user);
   }
 
+  async getWishlists() {
+    const total = this.repo.countWishlsits();
+    return total;
+  }
+  async mostWishedProducts() {
+    const products = await this.repo.mostWishedProducts();
+    if (products.length == 0) {
+      throw new AppError("No wished products", 404);
+    }
+    return products;
+  }
   toDTO(user: any): UserResponseDTO {
     return {
       id: user.id,
