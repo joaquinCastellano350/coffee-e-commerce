@@ -26,6 +26,12 @@ export class AuthRouter {
       requireRole("admin"),
       this.authController.getAllUsers
     );
+    this.router.get(
+      "/users/wishlist/count",
+      requireAuth,
+      requireRole("admin"),
+      this.authController.getWishlists
+    );
     this.router.patch(
       "/change-role/:userEmail/:role",
       requireAuth,

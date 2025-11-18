@@ -40,4 +40,22 @@ export class MongoUserRepository implements UserRepository {
       }
     );
   }
+
+  async countWishlsits() {
+    const total = await UserModel.aggregate([
+      {
+        $project: {
+          _id: 0,
+          wishlistSize: { $size: "$wishlist" },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalCount: { $sum: "$wishlistSize" },
+        },
+      },
+    ]);
+    return total.length > 0 ? total[0].totalCount : 0;
+  }
 }

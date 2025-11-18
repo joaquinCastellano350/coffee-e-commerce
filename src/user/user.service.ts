@@ -20,6 +20,11 @@ export class UserService {
     return await this.repo.findAll(filters);
   }
 
+  async getWishlists() {
+    const total = this.repo.countWishlsits();
+    return total;
+  }
+
   async register(dto: RegisterDTO): Promise<UserResponseDTO> {
     const existing = await this.repo.findByEmail(dto.email);
     if (existing) throw new AppError("Email already in use", 409);
