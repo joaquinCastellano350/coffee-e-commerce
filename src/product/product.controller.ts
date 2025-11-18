@@ -15,6 +15,7 @@ export class ProductController {
     this.getAllProducts = this.getAllProducts.bind(this);
     this.getProductById = this.getProductById.bind(this);
     this.updateProduct = this.updateProduct.bind(this);
+    this.countActive = this.countActive.bind(this);
   }
 
   async getAllProducts(req: Request, res: Response, next: NextFunction) {
@@ -25,7 +26,14 @@ export class ProductController {
       next(error);
     }
   }
-
+  async countActive(req: Request, res: Response, next: NextFunction) {
+    try {
+      const total = await this.productService.countActive();
+      res.status(200).json({ total });
+    } catch (error) {
+      next(error);
+    }
+  }
   async getProductById(req: Request, res: Response, next: NextFunction) {
     try {
       const product = await this.productService.getProductById(req.params.id);
@@ -37,13 +45,13 @@ export class ProductController {
 
   async createProduct(req: Request, res: Response, next: NextFunction) {
     try {
-      const data = {...req.body};
+      const data = { ...req.body };
       if (req.file) {
         const imageURL = await this.storageService.processImage(req.file);
         data.imageURL = imageURL;
       }
       const createdProduct = await this.productService.createProduct(data);
-      
+
       res.status(201).json(createdProduct);
     } catch (error) {
       next(error);
@@ -52,8 +60,8 @@ export class ProductController {
 
   async updateProduct(req: Request, res: Response, next: NextFunction) {
     try {
-      const {id} = req.params;
-      const data = {...req.body};
+      const { id } = req.params;
+      const data = { ...req.body };
       if (req.file) {
         const prev = await this.productService.getProductById(id);
         if (prev.imageURL) await this.storageService.deleteFile(prev.imageURL);
@@ -69,7 +77,7 @@ export class ProductController {
 
   async deleteProduct(req: Request, res: Response, next: NextFunction) {
     try {
-      const {id} = req.params;
+      const { id } = req.params;
       const product = await this.productService.getProductById(id);
       if (product.imageURL) {
         await this.storageService.deleteFile(product.imageURL);

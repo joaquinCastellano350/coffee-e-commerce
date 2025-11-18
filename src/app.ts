@@ -61,7 +61,7 @@ export class App {
     authController,
     userService,
     wishlistController,
-    wishlistService
+    wishlistService,
   }: {
     productRepository?: MongoProductRepository;
     productController?: ProductController;
@@ -82,7 +82,6 @@ export class App {
     wishlistController?: WishlistController;
     wishlistService?: WishlistService;
   } = {}) {
-    
     this.app = express();
     this.app.use(cors(corsOptions));
     this.app.use(express.json());
@@ -93,7 +92,7 @@ export class App {
     this.app.use(
       "/api-docs",
       swaggerUi.serve,
-      swaggerUi.setup(swaggerDocument),
+      swaggerUi.setup(swaggerDocument)
     );
 
     const userRepo = userRepository || new MongoUserRepository();
@@ -104,35 +103,43 @@ export class App {
     const storageServ = storageService || new StorageService();
 
     const productRepo = productRepository || new MongoProductRepository();
-    const productServ = productService || new ProductService(productRepo);
-    const productCont = productController || new ProductController(productServ, storageServ);
+    const categoryRepo = categoryRepository || new MongoCategoryRepository();
+    const catalogRepo = catalogRepository || new MongoCatalogRepository();
+    const formRepo = formRepository || new MongoFormRepository();
+
+    const productServ =
+      productService || new ProductService(productRepo, catalogRepo);
+    const productCont =
+      productController || new ProductController(productServ, storageServ);
     const productRouter = new ProductRouter(productCont);
 
-    const wishlistServ = wishlistService || new WishlistService(userRepo, productRepo);
-    const wishlistCont = wishlistController || new WishlistController(wishlistServ);
+    const wishlistServ =
+      wishlistService || new WishlistService(userRepo, productRepo);
+    const wishlistCont =
+      wishlistController || new WishlistController(wishlistServ);
     const wishlistRouter = new WishlistRouter(wishlistCont);
-    
-    const categoryRepo = categoryRepository || new MongoCategoryRepository();
+
     const categoryServ = categoryService || new CategoryService(categoryRepo);
     const categoryCont =
-    categoryController || new CategoryController(categoryServ);
+      categoryController || new CategoryController(categoryServ);
     const categoryRouter = new CategoryRouter(categoryCont);
-    
-    const catalogRepo = catalogRepository || new MongoCatalogRepository();
+
     const catalogServ =
-    catalogService || new CatalogService(catalogRepo, productRepo);
+      catalogService || new CatalogService(catalogRepo, productRepo);
     const catalogCont = catalogController || new CatalogController(catalogServ);
     const catalogRouter = new CatalogRouter(catalogCont);
-    
-    const formRepo = formRepository || new MongoFormRepository();
+
     const formServ = formService || new FormService(formRepo);
     const formCont = formController || new FormController(formServ);
     const formRouter = new FormRouter(formCont);
 
-    this.app.use('/uploads', express.static(StorageService.uploadsDir, {
-      immutable: true,
-      maxAge: '30d',
-    }));
+    this.app.use(
+      "/uploads",
+      express.static(StorageService.uploadsDir, {
+        immutable: true,
+        maxAge: "30d",
+      })
+    );
 
     this.app.use("/auth", authRouter.router);
     this.app.use("/api/wishlist", wishlistRouter.router);
@@ -142,21 +149,26 @@ export class App {
     this.app.use("/api/forms", formRouter.router);
   }
   static getDefaults() {
-
     const storageService = new StorageService();
 
+    const catalogRepository = new MongoCatalogRepository();
     const productRepository = new MongoProductRepository();
-    const productService = new ProductService(productRepository);
-    const productController = new ProductController(productService, storageService);
+    const productService = new ProductService(
+      productRepository,
+      catalogRepository
+    );
+    const productController = new ProductController(
+      productService,
+      storageService
+    );
 
     const categoryRepository = new MongoCategoryRepository();
     const categoryService = new CategoryService(categoryRepository);
     const categoryController = new CategoryController(categoryService);
 
-    const catalogRepository = new MongoCatalogRepository();
     const catalogService = new CatalogService(
       catalogRepository,
-      productRepository,
+      productRepository
     );
     const catalogController = new CatalogController(catalogService);
 
@@ -178,7 +190,6 @@ export class App {
       formController,
       formService,
       storageService,
-      
     };
   }
 
