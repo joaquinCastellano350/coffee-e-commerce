@@ -16,7 +16,8 @@ export class FormController {
 
   async getAllForms(req: Request, res: Response, next: NextFunction) {
     try {
-      const forms = await this.formService.getAllForms();
+      const limit = Number(req.query.limit);
+      const forms = await this.formService.getAllForms(limit);
       res.status(200).json(forms);
     } catch (error) {
       next(error);

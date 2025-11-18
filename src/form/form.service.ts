@@ -18,8 +18,8 @@ export class FormService {
     return total;
   }
 
-  async getAllForms() {
-    const forms = await this.formRepository.findAll();
+  async getAllForms(limit?: number) {
+    const forms = await this.formRepository.findAll(limit);
     if (forms.length === 0) {
       throw new AppError("No forms found", 404);
     }

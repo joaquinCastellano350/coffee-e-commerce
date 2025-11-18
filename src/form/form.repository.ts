@@ -1,11 +1,12 @@
 import { IForm, formModel } from "./form.model.js";
 import { FormRepository } from "./form.repository.interface.js";
 export class MongoFormRepository implements FormRepository {
-  async findAll(): Promise<IForm[]> {
+  async findAll(limit?: number): Promise<IForm[]> {
     const form = await formModel
       .find()
       .sort({ createdAt: -1 })
       .populate("interestedProduct", "name")
+      .limit(limit || 0)
       .exec();
     return form;
   }
