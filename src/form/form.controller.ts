@@ -12,6 +12,7 @@ export class FormController {
     this.getFormById = this.getFormById.bind(this);
     this.updateForm = this.updateForm.bind(this);
     this.countLatests = this.countLatests.bind(this);
+    this.mostAskedProducts = this.mostAskedProducts.bind(this);
   }
 
   async getAllForms(req: Request, res: Response, next: NextFunction) {
@@ -66,6 +67,14 @@ export class FormController {
     try {
       const deletedForm = await this.formService.deleteForm(req.params.id);
       res.status(204).json(deletedForm);
+    } catch (error) {
+      next(error);
+    }
+  }
+  async mostAskedProducts(req: Request, res: Response, next: NextFunction) {
+    try {
+      const products = await this.formService.mostAskedProducts();
+      res.status(200).json(products);
     } catch (error) {
       next(error);
     }

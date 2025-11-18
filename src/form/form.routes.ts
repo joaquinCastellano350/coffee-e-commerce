@@ -22,6 +22,7 @@ export class FormRouter {
     */
     this.router.use(requireAuth, requireRole("admin"));
     this.router.get("/latests", formController.countLatests);
+    this.router.get("/products", formController.mostAskedProducts);
     this.router.get("/:id", formController.getFormById);
     this.router.get("/", formController.getAllForms);
     this.router.delete("/:id", formController.deleteForm);

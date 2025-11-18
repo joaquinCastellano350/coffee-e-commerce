@@ -53,4 +53,12 @@ export class FormService {
     }
     return deletedForm;
   }
+
+  async mostAskedProducts() {
+    const products = await this.formRepository.mostAskedProducts();
+    if (products.length == 0) {
+      throw new AppError("Non product has been asked", 404);
+    }
+    return products;
+  }
 }

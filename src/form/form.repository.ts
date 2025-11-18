@@ -34,4 +34,40 @@ export class MongoFormRepository implements FormRepository {
     const form = await formModel.findOneAndDelete({ _id: id });
     return form;
   }
+
+  async mostAskedProducts() {
+    const products = await formModel.aggregate([
+      {
+        $group: {
+          _id: "$interestedProduct",
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $sort: {
+          count: -1,
+        },
+      },
+      { $limit: 10 },
+      {
+        $lookup: {
+          from: "products",
+          localField: "_id",
+          foreignField: "_id",
+          as: "productDetails",
+        },
+      },
+      {
+        $unwind: "$productDetails",
+      },
+      {
+        $project: {
+          _id: 0,
+          count: "$count",
+          name: "$productDetails.name",
+        },
+      },
+    ]);
+    return products;
+  }
 }
