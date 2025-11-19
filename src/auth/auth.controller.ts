@@ -20,6 +20,8 @@ export class AuthController {
     this.logout = this.logout.bind(this);
     this.changeRole = this.changeRole.bind(this);
     this.getAllUsers = this.getAllUsers.bind(this);
+    this.getWishlists = this.getWishlists.bind(this);
+    this.mostWishedProducts = this.mostWishedProducts.bind(this);
   }
 
   async register(req: Request, res: Response, next: NextFunction) {
@@ -134,6 +136,22 @@ export class AuthController {
         role as "admin" | "user"
       );
       res.status(200).json(users);
+    } catch (error) {
+      next(error);
+    }
+  }
+  async getWishlists(req: Request, res: Response, next: NextFunction) {
+    try {
+      const total = await this.userService.getWishlists();
+      res.status(200).json({ total });
+    } catch (error) {
+      next(error);
+    }
+  }
+  async mostWishedProducts(req: Request, res: Response, next: NextFunction) {
+    try {
+      const products = await this.userService.mostWishedProducts();
+      res.status(200).json(products);
     } catch (error) {
       next(error);
     }

@@ -67,6 +67,17 @@ export class UserService {
     return this.toDTO(user);
   }
 
+  async getWishlists() {
+    const total = this.repo.countWishlsits();
+    return total;
+  }
+  async mostWishedProducts() {
+    const products = await this.repo.mostWishedProducts();
+    if (products.length == 0) {
+      throw new AppError("No wished products", 404);
+    }
+    return products;
+  }
   toDTO(user: any): UserResponseDTO {
     return {
       id: user.id,

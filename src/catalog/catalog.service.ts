@@ -9,12 +9,14 @@ export class CatalogService {
 
   constructor(
     catalogRepository: MongoCatalogRepository,
-    productRepository: MongoProductRepository,
+    productRepository: MongoProductRepository
   ) {
     this.catalogRepository = catalogRepository;
     this.productRepository = productRepository;
   }
-
+  async getActive() {
+    return await this.catalogRepository.findActive();
+  }
   async getCatalogBySlug(slug: string) {
     const catalog = await this.catalogRepository.findBySlug(slug);
     if (!catalog) {
@@ -22,7 +24,10 @@ export class CatalogService {
     }
     return catalog;
   }
-  async getCatalogProducts(slug: string, filters: Record<string, string | number>) {
+  async getCatalogProducts(
+    slug: string,
+    filters: Record<string, string | number>
+  ) {
     let catalog;
     if (slug === "catalog") {
       catalog = await this.catalogRepository.findActive();
@@ -40,8 +45,10 @@ export class CatalogService {
     delete filters.page;
     delete filters.limit;
 
-
-    const [products, total] = await Promise.all( [this.productRepository.findByFilters(skip , limit , filters), this.productRepository.count(filters)] );
+    const [products, total] = await Promise.all([
+      this.productRepository.findByFilters(skip, limit, filters),
+      this.productRepository.count(filters),
+    ]);
     return {
       products,
       total,
@@ -72,7 +79,7 @@ export class CatalogService {
 
   async updateCatalog(
     id: string,
-    data: Partial<ICatalog>,
+    data: Partial<ICatalog>
   ): Promise<ICatalog | null> {
     const catalog = await this.catalogRepository.update(id, data);
     if (!catalog) {

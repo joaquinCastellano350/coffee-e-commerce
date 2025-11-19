@@ -16,18 +16,26 @@ export class CatalogController {
     this.deleteCatalog = this.deleteCatalog.bind(this);
     this.disableCatalog = this.disableCatalog.bind(this);
     this.enableCatalog = this.enableCatalog.bind(this);
+    this.getActive = this.getActive.bind(this);
   }
-
+  async getActive(req: Request, res: Response, next: NextFunction) {
+    try {
+      const catalog = await this.catalogService.getActive();
+      res.status(200).json(catalog);
+    } catch (error) {
+      next(error);
+    }
+  }
   async getCatalogProducts(
     req: FilteredRequest,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ) {
     try {
-      const slug = req.params.slug || 'catalog';
+      const slug = req.params.slug || "catalog";
       const result = await this.catalogService.getCatalogProducts(
         slug,
-        req.filters ?? {},
+        req.filters ?? {}
       );
       res.status(200).json(result);
     } catch (error) {
@@ -74,7 +82,7 @@ export class CatalogController {
     try {
       const updatedCatalog = await this.catalogService.updateCatalog(
         req.params.id,
-        req.body,
+        req.body
       );
       res.status(200).json(updatedCatalog);
     } catch (error) {
@@ -94,7 +102,7 @@ export class CatalogController {
   async disableCatalog(req: Request, res: Response, next: NextFunction) {
     try {
       const disabledCatalog = await this.catalogService.disableCatalog(
-        req.params.id,
+        req.params.id
       );
       res.status(200).json(disabledCatalog);
     } catch (error) {
@@ -105,7 +113,7 @@ export class CatalogController {
   async enableCatalog(req: Request, res: Response, next: NextFunction) {
     try {
       const enabledCatalog = await this.catalogService.enableCatalog(
-        req.params.id,
+        req.params.id
       );
       res.status(200).json(enabledCatalog);
     } catch (error) {

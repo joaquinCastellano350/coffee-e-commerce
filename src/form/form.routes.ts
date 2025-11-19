@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { FormController } from "./form.controller.js";
 import { validate } from "../middlewares/validation.middleware.js";
-import { createformSchema, updateformSchema } from "./form.validation.js";
-import { requireAuth , requireRole } from "./../auth/auth.middleware.js";
+import { createformSchema } from "./form.validation.js";
+import { requireAuth, requireRole } from "./../auth/auth.middleware.js";
 
 export class FormRouter {
   public readonly router = Router();
@@ -11,15 +11,18 @@ export class FormRouter {
     this.router.post(
       "/",
       validate(createformSchema),
-      formController.createForm,
+      formController.createForm
     );
+    /*
     this.router.put(
       "/:id",
       validate(updateformSchema),
       formController.updateForm,
     );
-
-    this.router.use(requireAuth , requireRole("admin"));
+    */
+    this.router.use(requireAuth, requireRole("admin"));
+    this.router.get("/latests", formController.countLatests);
+    this.router.get("/products", formController.mostAskedProducts);
     this.router.get("/:id", formController.getFormById);
     this.router.get("/", formController.getAllForms);
     this.router.delete("/:id", formController.deleteForm);
