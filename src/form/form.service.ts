@@ -10,8 +10,16 @@ export class FormService {
     this.formRepository = formRepository;
   }
 
-  async getAllForms() {
-    const forms = await this.formRepository.findAll();
+  async countLatests(days: number) {
+    const date = new Date();
+    const gteDate = new Date(date.setDate(date.getDate() - days));
+
+    const total = await this.formRepository.countLatests(gteDate);
+    return total;
+  }
+
+  async getAllForms(limit?: number) {
+    const forms = await this.formRepository.findAll(limit);
     if (forms.length === 0) {
       throw new AppError("No forms found", 404);
     }
@@ -44,5 +52,13 @@ export class FormService {
       throw new AppError("Form not found or could not be deleted", 404);
     }
     return deletedForm;
+  }
+
+  async mostAskedProducts() {
+    const products = await this.formRepository.mostAskedProducts();
+    if (products.length == 0) {
+      throw new AppError("Non product has been asked", 404);
+    }
+    return products;
   }
 }

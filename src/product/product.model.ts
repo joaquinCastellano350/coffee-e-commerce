@@ -12,7 +12,7 @@ export interface IProduct extends Document {
   category_slug: string;
   catalog_id: Schema.Types.ObjectId;
   category_id: Schema.Types.ObjectId;
-  tags: string[];
+  tags: string[] | string;
 }
 
 const productSchema = new Schema<IProduct>(
@@ -37,7 +37,7 @@ const productSchema = new Schema<IProduct>(
     tags: { type: [String], required: false },
     category_slug: { type: String, required: false },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 productSchema.pre("validate", function (next) {

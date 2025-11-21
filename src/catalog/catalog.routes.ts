@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { validate } from "../middlewares/validation.middleware.js";
 import { CatalogController } from "./catalog.controller.js";
-import { requireAuth , requireRole } from "./../auth/auth.middleware.js";
+import { requireAuth, requireRole } from "./../auth/auth.middleware.js";
 
 import {
   createCatalogSchema,
@@ -13,17 +13,22 @@ export class CatalogRouter {
   public readonly router = Router();
 
   constructor(catalogController: CatalogController) {
-    this.router.get('/products', parseFilters, catalogController.getCatalogProducts);
+    this.router.get("/active", catalogController.getActive);
+    this.router.get(
+      "/products",
+      parseFilters,
+      catalogController.getCatalogProducts
+    );
     this.router.use(requireAuth, requireRole("admin"));
     this.router.post(
       "/",
       validate(createCatalogSchema),
-      catalogController.createCatalog,
+      catalogController.createCatalog
     );
     this.router.put(
       "/id/:id",
       validate(updateCatalogSchema),
-      catalogController.updateCatalog,
+      catalogController.updateCatalog
     );
     this.router.delete("/id/:id", catalogController.deleteCatalog);
     this.router.patch("/id/:id/disable", catalogController.disableCatalog);
@@ -34,7 +39,7 @@ export class CatalogRouter {
     this.router.get(
       "/slug/:slug/products",
       parseFilters,
-      catalogController.getCatalogProducts,
+      catalogController.getCatalogProducts
     );
   }
 }

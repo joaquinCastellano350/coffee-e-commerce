@@ -1,21 +1,24 @@
-
 import { IProduct, ProductModel } from "./product.model.js";
 import { ProductRepository } from "./product.repository.interface.js";
 
 export class MongoProductRepository implements ProductRepository {
-  async findByFilters(skip: number, limit: number, filters: Record<string, string | number | { $regex: RegExp }>) {
-
+  async findByFilters(
+    skip: number,
+    limit: number,
+    filters: Record<string, string | number | { $regex: RegExp }>
+  ) {
     if (filters.name) {
-      const regex = new RegExp(filters.name as string, 'i');
+      const regex = new RegExp(filters.name as string, "i");
       filters.name = { $regex: regex };
     }
 
-
     const products = await ProductModel.find(filters)
-    .populate('category_id', 'name ')
-    .select('_id name description price stock brand imageURL category_id tags')
-    .skip(skip)
-    .limit(limit);
+      .populate("category_id", "name ")
+      .select(
+        "_id name description price stock brand imageURL category_id tags"
+      )
+      .skip(skip)
+      .limit(limit);
 
     return products;
   }
@@ -25,18 +28,21 @@ export class MongoProductRepository implements ProductRepository {
   }
   async findAll(): Promise<IProduct[]> {
     const products = await ProductModel.find()
-    .populate('category_id', 'name ')
-    .populate('catalog_id', 'name visible ');
+      .populate("category_id", "name ")
+      .populate("catalog_id", "name visible ");
     return products;
   }
   async findOne(id: string): Promise<IProduct | null> {
     const product = await ProductModel.findById(id)
-    .populate('category_id', 'name ')
-    .populate('catalog_id', 'name');
+      .populate("category_id", "name ")
+      .populate("catalog_id", "name");
     return product;
   }
   async findMany(ids: string[]): Promise<IProduct[]> {
-    const products = await ProductModel.find({ _id: { $in: ids } }).populate('category_id', 'name ');
+    const products = await ProductModel.find({ _id: { $in: ids } }).populate(
+      "category_id",
+      "name "
+    );
     return products;
   }
   async add(data: Partial<IProduct>): Promise<IProduct | null> {

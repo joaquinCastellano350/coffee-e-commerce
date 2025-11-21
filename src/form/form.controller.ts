@@ -11,17 +11,28 @@ export class FormController {
     this.getAllForms = this.getAllForms.bind(this);
     this.getFormById = this.getFormById.bind(this);
     this.updateForm = this.updateForm.bind(this);
+    this.countLatests = this.countLatests.bind(this);
+    this.mostAskedProducts = this.mostAskedProducts.bind(this);
   }
 
   async getAllForms(req: Request, res: Response, next: NextFunction) {
     try {
-      const forms = await this.formService.getAllForms();
+      const limit = Number(req.query.limit);
+      const forms = await this.formService.getAllForms(limit);
       res.status(200).json(forms);
     } catch (error) {
       next(error);
     }
   }
-
+  async countLatests(req: Request, res: Response, next: NextFunction) {
+    try {
+      const days = Number(req.query.id) || 7;
+      const total = await this.formService.countLatests(days);
+      res.status(200).json({ total });
+    } catch (error) {
+      next(error);
+    }
+  }
   async getFormById(req: Request, res: Response, next: NextFunction) {
     try {
       const form = await this.formService.getFormById(req.params.id);
@@ -44,7 +55,7 @@ export class FormController {
     try {
       const updatedForm = await this.formService.updateForm(
         req.params.id,
-        req.body,
+        req.body
       );
       res.status(200).json(updatedForm);
     } catch (error) {
@@ -56,6 +67,14 @@ export class FormController {
     try {
       const deletedForm = await this.formService.deleteForm(req.params.id);
       res.status(204).json(deletedForm);
+    } catch (error) {
+      next(error);
+    }
+  }
+  async mostAskedProducts(req: Request, res: Response, next: NextFunction) {
+    try {
+      const products = await this.formService.mostAskedProducts();
+      res.status(200).json(products);
     } catch (error) {
       next(error);
     }
