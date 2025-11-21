@@ -14,7 +14,7 @@ const catalogSchema = new Schema<ICatalog>({
   name: { type: String, required: true, trim: true },
   description: { type: String, required: false },
   slug: { type: String, required: true, unique: true, lowercase: true },
-  visible: { type: Boolean, default: true },
+  visible: { type: Boolean, default: false },
   startedAt: { type: Date, required: false },
   endedAt: { type: Date, required: false },
 });
@@ -28,7 +28,7 @@ catalogSchema.pre("validate", function (next) {
 
 catalogSchema.index(
   { visible: 1 },
-  { unique: true, partialFilterExpression: { visible: true } },
+  { unique: true, partialFilterExpression: { visible: true } }
 );
 
 export const CatalogModel = model<ICatalog>("Catalog", catalogSchema);

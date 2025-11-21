@@ -13,7 +13,27 @@ export class MongoCatalogRepository implements CatalogRepository {
   }
 
   async findAll(): Promise<ICatalog[]> {
-    const catalogs = await CatalogModel.find();
+    const catalogs = await CatalogModel.aggregate([
+      {
+        $lookup: {
+          from: "products",
+          localField: "_id",
+          foreignField: "catalog_id",
+          as: "productsList",
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          visible: 1,
+          description: 1,
+          startedAt: 1,
+          endedAt: 1,
+          totalProducts: { $size: "$productsList" },
+        },
+      },
+    ]);
     return catalogs;
   }
 
@@ -38,7 +58,7 @@ export class MongoCatalogRepository implements CatalogRepository {
     const catalog = await CatalogModel.findByIdAndUpdate(
       id,
       { visible: false },
-      { new: true },
+      { new: true }
     );
     return catalog;
   }
@@ -47,7 +67,7 @@ export class MongoCatalogRepository implements CatalogRepository {
     const catalog = await CatalogModel.findByIdAndUpdate(
       id,
       { visible: true },
-      { new: true },
+      { new: true }
     );
 
     return catalog;
